@@ -1,0 +1,187 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scripts/main menu/QuitButton.gd" type="Script" id=2]
+[ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://soundtrack/main_menu1.wav" type="AudioStream" id=4]
+[ext_resource path="res://scenes/png_res/start2.png" type="Texture" id=5]
+[ext_resource path="res://scenes/png_res/start.png" type="Texture" id=6]
+[ext_resource path="res://Scripts/main menu/main_bg.gd" type="Script" id=7]
+[ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 56
+font_data = ExtResource( 8 )
+
+[node name="Main Menu UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
+[node name="main_bg" type="Node2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="main_bg_left_up" type="Sprite" parent="main_bg"]
+position = Vector2( -640, 360 )
+texture = ExtResource( 6 )
+
+[node name="main_bg_right_down" type="Sprite" parent="main_bg"]
+position = Vector2( 640, 360 )
+texture = ExtResource( 6 )
+
+[node name="main_bg_left_down" type="Sprite" parent="main_bg"]
+position = Vector2( 640, 0 )
+texture = ExtResource( 5 )
+offset = Vector2( -1280, -360 )
+
+[node name="main_bg_right_up" type="Sprite" parent="main_bg"]
+position = Vector2( 640, -360 )
+texture = ExtResource( 5 )
+
+[node name="Game Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -242.0
+margin_top = 83.0
+margin_right = 242.0
+margin_bottom = 216.0
+custom_fonts/font = SubResource( 1 )
+text = "Spacetacular"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MusicSlider" type="HSlider" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -58.0
+margin_right = 61.0
+margin_bottom = 32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MusicSlider"]
+margin_top = 20.0
+margin_right = 91.0
+margin_bottom = 34.0
+text = "Music Volume"
+align = 1
+valign = 1
+
+[node name="isMusicOn" type="CheckButton" parent="MusicSlider"]
+margin_left = 162.5
+margin_top = 24.0
+margin_right = 238.5
+margin_bottom = 64.0
+rect_pivot_offset = Vector2( -879, -61 )
+pressed = true
+
+[node name="SfxSlider" type="HSlider" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -15.0
+margin_right = 61.0
+margin_bottom = 75.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SfxSlider"]
+margin_top = 17.0
+margin_right = 75.0
+margin_bottom = 31.0
+text = "SFX Volume"
+align = 1
+valign = 1
+
+[node name="isSfxOn" type="CheckButton" parent="SfxSlider"]
+margin_left = 164.0
+margin_top = 20.0
+margin_right = 240.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( -879, -61 )
+pressed = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -54.0
+margin_top = -218.0
+margin_right = 54.0
+margin_bottom = -126.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="Button" parent="VBoxContainer"]
+visible = false
+margin_right = 108.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "Continue"
+
+[node name="New Game" type="Button" parent="VBoxContainer"]
+margin_right = 108.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "New Game"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+margin_top = 31.0
+margin_right = 108.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 1 )
+text = "Options"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+margin_top = 62.0
+margin_right = 108.0
+margin_bottom = 89.0
+custom_fonts/font = ExtResource( 1 )
+text = "Quit"
+script = ExtResource( 2 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[node name="options_back" type="Button" parent="."]
+visible = false
+margin_left = 587.0
+margin_top = 417.0
+margin_right = 695.0
+margin_bottom = 444.0
+custom_fonts/font = ExtResource( 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="toggled" from="MusicSlider/isMusicOn" to="." method="_on_isMusicOn_toggled"]
+[connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
+[connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="VBoxContainer/Quit" method="_on_Quit_pressed"]
+[connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
