@@ -2,8 +2,8 @@ extends Node
 
 
 
-onready var options_file := "user://Spacetacular_game/options.dat"
-onready var savefile_dir := "user://Spacetacular_game/savegames/"
+onready var options_file := "user://options.dat"
+onready var savefile_dir := "user://savegames/"
 
 var file := File.new()
 var music_volume := 0
@@ -13,11 +13,8 @@ var sfx_toggle := true
 
 func Init_Directories() -> void:
 	var dir = Directory.new()
-	if not dir.dir_exists("user://Spacetacular_game"):
-		print("A")
-		dir.open("user://")
-		dir.make_dir("Spacetacular_game")
-		dir.open("Spacetacular_game")
+	dir.open("user://")
+	if not dir.dir_exists(savefile_dir):
 		dir.make_dir("savegames")
 
 func Init_Options() -> void:
