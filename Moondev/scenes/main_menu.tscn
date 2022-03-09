@@ -6,7 +6,7 @@
 [ext_resource path="res://soundtrack/main_menu1.wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/png_res/start2.png" type="Texture" id=5]
 [ext_resource path="res://scenes/png_res/start.png" type="Texture" id=6]
-[ext_resource path="res://Scripts/main menu/main_bg.gd" type="Script" id=7]
+[ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
 [ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
 
 [sub_resource type="DynamicFont" id=1]
@@ -65,9 +65,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -90.0
-margin_top = -58.0
+margin_top = -71.0
 margin_right = 61.0
-margin_bottom = 32.0
+margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -82,9 +82,9 @@ valign = 1
 
 [node name="isMusicOn" type="CheckButton" parent="MusicSlider"]
 margin_left = 162.5
-margin_top = 24.0
+margin_top = 26.0
 margin_right = 238.5
-margin_bottom = 64.0
+margin_bottom = 66.0
 rect_pivot_offset = Vector2( -879, -61 )
 pressed = true
 
@@ -112,9 +112,9 @@ valign = 1
 
 [node name="isSfxOn" type="CheckButton" parent="SfxSlider"]
 margin_left = 164.0
-margin_top = 20.0
+margin_top = 25.0
 margin_right = 240.0
-margin_bottom = 60.0
+margin_bottom = 65.0
 rect_pivot_offset = Vector2( -879, -61 )
 pressed = true
 __meta__ = {

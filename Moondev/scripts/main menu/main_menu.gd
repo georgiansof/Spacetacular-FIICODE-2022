@@ -5,14 +5,14 @@ extends Control
 # var a = 2
 # var b = "text"
 
-func savegame_exists():
-	if globals.file.file_exists(globals.savefile_name):
-		return true
-	return false
+func savegame_exists() -> bool:
+	var files = globals.list_files_in_directory(globals.savefile_dir,"dat")
+	return true if files.size()>0 else false
 
-func UpdateFile():
+func UpdateFile() -> void:
 	var strng = str(globals.music_volume) + "," + str(globals.sfx_volume) + "," + str(int(globals.music_toggle)) + "," + str(int(globals.sfx_toggle))
-	globals.file.open(globals.file_name, File.WRITE)
+# warning-ignore:return_value_discarded
+	globals.file.open(globals.options_file, File.WRITE)
 	globals.file.store_string(strng)
 	globals.file.close()
 	pass
@@ -54,14 +54,18 @@ func _on_options_back_pressed():
 func _on_MusicSlider_value_changed(value):
 	var stream = get_node("Music")
 	stream.volume_db = - (value/100.0*50) # percent to decibels
-	globals.music_volume = value
-	UpdateFile()
+	if globals.music_volume != value:
+		globals.music_volume = value
+		globals.music_toggle = true
+		$MusicSlider/isMusicOn.pressed = true
+		UpdateFile()
 	pass 
 
 
 	pass # Replace with function body.
 
 
+# warning-ignore:unused_argument
 func _on_isMusicOn_toggled(button_pressed):
 	var stream = get_node("Music")
 	if get_node("MusicSlider/isMusicOn").is_pressed():
@@ -75,6 +79,7 @@ func _on_isMusicOn_toggled(button_pressed):
 	pass # Replace with function body.
 
 
+# warning-ignore:unused_argument
 func _on_isSfxOn_toggled(button_pressed):
 	if get_node("SfxSlider/isSfxOn").is_pressed():
 		globals.sfx_toggle = true
@@ -86,6 +91,9 @@ func _on_isSfxOn_toggled(button_pressed):
 
 
 func _on_SfxSlider_value_changed(value):
-	globals.sfx_volume = value
-	UpdateFile()
+	if value!=globals.sfx_volume:
+		globals.sfx_volume = value
+		globals.sfx_toggle = true
+		$SfxSlider/isSfxOn.pressed=true
+		UpdateFile()
 	pass # Replace with function body.
