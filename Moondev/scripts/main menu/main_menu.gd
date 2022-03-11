@@ -1,9 +1,7 @@
 extends Control
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var svgInputTxt:="null"
+var popup_choice:=false
 
 func savegame_exists() -> bool:
 	var files = globals.list_files_in_directory(globals.savefile_dir,"dat")
@@ -17,7 +15,6 @@ func UpdateFile() -> void:
 	globals.file.close()
 	pass
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	get_node("VBoxContainer/Continue").visible=false
 	if savegame_exists(): # daca exista savegame
@@ -27,13 +24,59 @@ func _ready():
 	get_node("MusicSlider/isMusicOn").pressed = globals.music_toggle
 	get_node("SfxSlider/isSfxOn").pressed = globals.sfx_toggle
 	$"VBoxContainer/New Game".grab_focus()
-	pass # Replace with function body.
+	pass 
 
+func Hide_UI() -> void:
+	$NG_menu.visible = true
+	$VBoxContainer.visible = false
+	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func CheckFileExists(name:String) -> bool:
+	var files:PoolStringArray = globals.list_files_in_directory(globals.savefile_dir,"dat")
+	for x in files:
+		if x==name:
+			return true
+	return false
 
+func _on_SavegameInput_text_entered(new_text):
+	svgInputTxt=new_text
+	if svgInputTxt=="":
+		svgInputTxt="null"
+	pass 
+
+func _on_Create_pressed():
+	$NG_menu/SavegameInput.emit_signal("text_entered",$NG_menu/SavegameInput.text)
+	pass 
+	
+func _on_SvgPopUp_confirmed():
+	popup_choice = true
+	pass 
+	
+
+func _on_New_Game_pressed():
+	Hide_UI()
+	$NG_menu/SavegameInput.text=""
+	yield($NG_menu/SavegameInput,"text_entered")
+	var name:String = svgInputTxt
+	svgInputTxt="null" 
+	var file_exists:bool = CheckFileExists(name)
+	popup_choice = false
+	# ask overwrite
+	$NG_menu.visible=false
+	$SvgPopUp.dialog_text="Savegame "+name+" already exists. Overwrite?"
+	$SvgPopUp.popup() # FIXME cancel button not working
+	yield($SvgPopUp,"popup_hide")
+	#
+	if !file_exists || popup_choice==true:
+			var file=File.new()
+			file.open(globals.savefile_dir+name+".dat",File.WRITE)
+			file.store_string("")
+			file.close()
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
+	elif !file_exists:
+		$NG_menu.visible=true
+	pass
 
 func _on_Options_pressed():
 	get_node("VBoxContainer").visible=false
@@ -42,6 +85,9 @@ func _on_Options_pressed():
 	get_node("options_back").visible=true
 	pass
 
+func _on_Quit_pressed():
+	get_tree().quit()
+	pass
 
 func _on_options_back_pressed():
 	get_node("VBoxContainer").visible=true
@@ -97,3 +143,9 @@ func _on_SfxSlider_value_changed(value):
 		$SfxSlider/isSfxOn.pressed=true
 		UpdateFile()
 	pass # Replace with function body.
+
+
+func _on_Back_NG_pressed():
+	$NG_menu.visible = false
+	$VBoxContainer.visible = true
+	pass 

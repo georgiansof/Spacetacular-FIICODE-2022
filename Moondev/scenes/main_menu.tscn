@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
-[ext_resource path="res://scripts/main menu/QuitButton.gd" type="Script" id=2]
+[ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
 [ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
@@ -11,13 +11,14 @@
 size = 56
 font_data = ExtResource( 8 )
 
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = ExtResource( 2 )
+
 [node name="Main Menu UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -158,7 +159,6 @@ margin_right = 108.0
 margin_bottom = 89.0
 custom_fonts/font = ExtResource( 1 )
 text = "Quit"
-script = ExtResource( 2 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 autoplay = true
@@ -175,10 +175,61 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SvgPopUp" type="ConfirmationDialog" parent="."]
+margin_left = 522.0
+margin_top = 373.0
+margin_right = 771.0
+margin_bottom = 443.0
+dialog_text = "Savegame already exists. Overwrite?"
+
+[node name="NG_menu" type="Control" parent="."]
+visible = false
+margin_left = 586.0
+margin_top = 502.0
+margin_right = 626.0
+margin_bottom = 542.0
+
+[node name="Back" type="Button" parent="NG_menu"]
+margin_left = -11.0
+margin_top = 85.0
+margin_right = 121.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 1 )
+text = "Back to menu"
+
+[node name="Create" type="Button" parent="NG_menu"]
+margin_left = -11.0
+margin_top = 51.0
+margin_right = 121.0
+margin_bottom = 78.0
+custom_fonts/font = ExtResource( 1 )
+text = "Create"
+
+[node name="EnterSvg_Label" type="Label" parent="NG_menu"]
+margin_left = -116.0
+margin_top = -101.0
+margin_right = 258.0
+margin_bottom = -77.0
+custom_fonts/font = SubResource( 2 )
+text = "Enter the new savegame name below"
+
+[node name="SavegameInput" type="LineEdit" parent="NG_menu"]
+margin_left = 26.0
+margin_top = -45.0
+margin_right = 84.0
+margin_bottom = -21.0
+align = 1
+virtual_keyboard_enabled = false
+
 [connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="toggled" from="MusicSlider/isMusicOn" to="." method="_on_isMusicOn_toggled"]
 [connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
 [connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
+[connection signal="pressed" from="VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
-[connection signal="pressed" from="VBoxContainer/Quit" to="VBoxContainer/Quit" method="_on_Quit_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
+[connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
+[connection signal="pressed" from="NG_menu/Back" to="." method="_on_Back_NG_pressed"]
+[connection signal="pressed" from="NG_menu/Create" to="." method="_on_Create_pressed"]
+[connection signal="text_entered" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_entered"]

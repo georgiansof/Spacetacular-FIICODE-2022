@@ -34,6 +34,7 @@ func Init_Options() -> void:
 		file.open(options_file, File.WRITE)
 		var default_settings = "0,0,1,1"
 		file.store_string(default_settings)
+		file.close()
 	pass
 
 # Called when the node enters the scene tree for the first time.

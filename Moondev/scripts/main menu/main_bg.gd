@@ -12,7 +12,6 @@ var speed := 20
 var bg_texture1 = preload("res://scenes/png_res/back1.png")
 var bg_texture2 = preload("res://scenes/png_res/back2.png")
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
