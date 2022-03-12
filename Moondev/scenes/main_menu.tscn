@@ -180,7 +180,9 @@ margin_left = 522.0
 margin_top = 373.0
 margin_right = 771.0
 margin_bottom = 443.0
+popup_exclusive = true
 dialog_text = "Savegame already exists. Overwrite?"
+dialog_hide_on_ok = false
 
 [node name="NG_menu" type="Control" parent="."]
 visible = false

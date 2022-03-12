@@ -50,6 +50,7 @@ func _on_Create_pressed():
 	
 func _on_SvgPopUp_confirmed():
 	popup_choice = true
+	$SvgPopUp.hide()
 	pass 
 	
 
@@ -59,14 +60,15 @@ func _on_New_Game_pressed():
 	yield($NG_menu/SavegameInput,"text_entered")
 	var name:String = svgInputTxt
 	svgInputTxt="null" 
-	var file_exists:bool = CheckFileExists(name)
+	var file_exists:bool = CheckFileExists(name+".dat")
 	popup_choice = false
-	# ask overwrite
-	$NG_menu.visible=false
-	$SvgPopUp.dialog_text="Savegame "+name+" already exists. Overwrite?"
-	$SvgPopUp.popup() # FIXME cancel button not working
-	yield($SvgPopUp,"popup_hide")
-	#
+	if file_exists:
+		# ask overwrite
+		$NG_menu.visible=false
+		$SvgPopUp.dialog_text="Savegame "+name+" already exists. Overwrite?"
+		$SvgPopUp.popup() # FIXME cancel button not working
+		yield($SvgPopUp,"popup_hide")
+		#
 	if !file_exists || popup_choice==true:
 			var file=File.new()
 			file.open(globals.savefile_dir+name+".dat",File.WRITE)
@@ -74,8 +76,8 @@ func _on_New_Game_pressed():
 			file.close()
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
-	elif !file_exists:
-		$NG_menu.visible=true
+	elif file_exists && popup_choice==false:
+		yield(_on_New_Game_pressed(),"completed")
 	pass
 
 func _on_Options_pressed():
@@ -149,3 +151,5 @@ func _on_Back_NG_pressed():
 	$NG_menu.visible = false
 	$VBoxContainer.visible = true
 	pass 
+
+
