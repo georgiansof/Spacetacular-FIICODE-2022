@@ -53,9 +53,18 @@ func _on_SvgPopUp_confirmed():
 	$SvgPopUp.hide()
 	pass 
 	
+func CheckNumberOfSaves() -> int:
+	var files = globals.list_files_in_directory(globals.savefile_dir,"dat")
+	return files.size()
 
 func _on_New_Game_pressed():
 	Hide_UI()
+	if CheckNumberOfSaves()>=10:
+		$NG_menu.visible=false
+		$SvgErrPopUp.popup()
+		yield($SvgErrPopUp,"popup_hide")
+		$VBoxContainer.visible = true
+		return
 	$NG_menu/SavegameInput.text=""
 	yield($NG_menu/SavegameInput,"text_entered")
 	var name:String = svgInputTxt
@@ -152,4 +161,13 @@ func _on_Back_NG_pressed():
 	$VBoxContainer.visible = true
 	pass 
 
+func isalphanum(c) -> bool:
+	return c>='0' && c<='9' || c>='a' && c<='z' || c>='A' && c<='Z'
+
+func _on_SavegameInput_text_changed(new_text):
+	if new_text.length()>0 && !isalphanum(new_text[new_text.length()-1]):
+		new_text.erase(new_text.length()-1,1)
+		$NG_menu/SavegameInput.text=new_text
+		$NG_menu/SavegameInput.caret_position=new_text.length()
+	pass
 
