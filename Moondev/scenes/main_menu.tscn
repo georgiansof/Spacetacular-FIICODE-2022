@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://soundtrack/sound_res (2).wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
 [ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
@@ -172,6 +173,7 @@ custom_fonts/font = ExtResource( 1 )
 text = "Quit"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
 autoplay = true
 
 [node name="options_back" type="Button" parent="."]
@@ -254,7 +256,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Continue_menu" type="Control" parent="."]
+[node name="Savegames_menu" type="Control" parent="."]
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
@@ -262,7 +264,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Savegame_slots" type="VBoxContainer" parent="Continue_menu"]
+[node name="Savegame_slots" type="VBoxContainer" parent="Savegames_menu"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -276,7 +278,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="slot1" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot1" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_right = 147.0
 margin_bottom = 32.0
 custom_fonts/font = SubResource( 3 )
@@ -284,7 +286,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot2" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot2" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 36.0
 margin_right = 147.0
 margin_bottom = 68.0
@@ -293,7 +295,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot3" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot3" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 72.0
 margin_right = 147.0
 margin_bottom = 104.0
@@ -302,7 +304,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot4" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot4" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 108.0
 margin_right = 147.0
 margin_bottom = 140.0
@@ -311,7 +313,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot5" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot5" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 144.0
 margin_right = 147.0
 margin_bottom = 176.0
@@ -320,7 +322,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot6" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot6" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 180.0
 margin_right = 147.0
 margin_bottom = 212.0
@@ -329,7 +331,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot7" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot7" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 216.0
 margin_right = 147.0
 margin_bottom = 248.0
@@ -338,7 +340,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot8" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot8" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 252.0
 margin_right = 147.0
 margin_bottom = 284.0
@@ -347,7 +349,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot9" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot9" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 288.0
 margin_right = 147.0
 margin_bottom = 320.0
@@ -356,7 +358,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="slot10" type="Button" parent="Continue_menu/Savegame_slots"]
+[node name="slot10" type="Button" parent="Savegames_menu/Savegame_slots"]
 margin_top = 324.0
 margin_right = 147.0
 margin_bottom = 356.0
@@ -365,7 +367,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Back" type="Button" parent="Continue_menu"]
+[node name="Back" type="Button" parent="Savegames_menu"]
 anchor_left = 14.375
 anchor_top = 14.7
 anchor_right = 17.675

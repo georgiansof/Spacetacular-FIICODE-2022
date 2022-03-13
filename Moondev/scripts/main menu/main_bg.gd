@@ -29,7 +29,7 @@ func set_textures() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	self.position+=(Vector2.DOWN * y_ratio + Vector2.RIGHT * x_ratio ) * speed * delta
-	if self.position.x>=1280 || self.position.y>=720:
+	if self.position.x>=1278 || self.position.y>=718:
 		$main_bg_right_down.texture=$main_bg_left_up.texture
 		self.position=Vector2.ZERO
 		set_textures()
