@@ -2,22 +2,25 @@ extends Control
 
 var svgInputTxt:="null"
 var popup_choice:=false
+var slot_node
+var continue_popup_choice:=false
+var rmv_popup_choice:=false
+var button_press_sfx = preload("res://sfx/button_advance.wav")
+var button_back_sfx = preload("res://sfx/button_back.wav")
+var attention_popup_sfx = preload("res://sfx/attention_popup.wav")
+var dialogue_popup_sfx = preload("res://sfx/dialogue_popup.wav")
+var err_sfx = preload("res://sfx/err.wav")
+var quit_sfx = preload("res://sfx/quit.wav")
 
-func savegame_exists() -> bool:
-	var files = globals.list_files_in_directory(globals.savefile_dir,"dat")
-	return true if files.size()>0 else false
-
-func UpdateFile() -> void:
-	var strng = str(globals.music_volume) + "," + str(globals.sfx_volume) + "," + str(int(globals.music_toggle)) + "," + str(int(globals.sfx_toggle))
-# warning-ignore:return_value_discarded
-	globals.file.open(globals.options_file, File.WRITE)
-	globals.file.store_string(strng)
-	globals.file.close()
-	pass
 
 func _ready():
-	get_node("VBoxContainer/Continue").visible=false
-	if savegame_exists(): # daca exista savegame
+	var children = self.get_children()
+	for i in range (0,children.size()):
+		if children[i].name!="Music" && children[i].name!="SFX": children[i].visible = false
+	for i in range (0,4):
+		children[i].visible = true
+	
+	if globals.default_savegame!="#":
 		get_node("VBoxContainer/Continue").visible=true
 	get_node("MusicSlider").value = globals.music_volume
 	get_node("SfxSlider").value = globals.sfx_volume
@@ -75,7 +78,7 @@ func _on_New_Game_pressed():
 		# ask overwrite
 		$NG_menu.visible=false
 		$SvgPopUp.dialog_text="Savegame "+name+" already exists. Overwrite?"
-		$SvgPopUp.popup() # FIXME cancel button not working
+		$SvgPopUp.popup()
 		yield($SvgPopUp,"popup_hide")
 		#
 	if !file_exists || popup_choice==true:
@@ -83,6 +86,8 @@ func _on_New_Game_pressed():
 			file.open(globals.savefile_dir+name+".dat",File.WRITE)
 			file.store_string("")
 			file.close()
+			globals.default_savegame=name+".dat"
+			globals.UpdateFile()
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
 	elif file_exists && popup_choice==false:
@@ -110,12 +115,12 @@ func _on_options_back_pressed():
 
 func _on_MusicSlider_value_changed(value):
 	var stream = get_node("Music")
-	stream.volume_db = - (value/100.0*50) # percent to decibels
+	stream.volume_db = linear2db(value/100.0)
 	if globals.music_volume != value:
 		globals.music_volume = value
 		globals.music_toggle = true
 		$MusicSlider/isMusicOn.pressed = true
-		UpdateFile()
+		globals.UpdateFile()
 	pass 
 
 
@@ -126,13 +131,13 @@ func _on_MusicSlider_value_changed(value):
 func _on_isMusicOn_toggled(button_pressed):
 	var stream = get_node("Music")
 	if get_node("MusicSlider/isMusicOn").is_pressed():
-		stream.volume_db = - (get_node("MusicSlider").value/100.0*50)
+		stream.volume_db = - linear2db(get_node("MusicSlider").value/100.0)
 		globals.music_toggle = true
-		UpdateFile()
+		globals.UpdateFile()
 	else: 
 		stream.volume_db = -80
 		globals.music_toggle = false
-		UpdateFile()
+		globals.UpdateFile()
 	pass # Replace with function body.
 
 
@@ -140,10 +145,10 @@ func _on_isMusicOn_toggled(button_pressed):
 func _on_isSfxOn_toggled(button_pressed):
 	if get_node("SfxSlider/isSfxOn").is_pressed():
 		globals.sfx_toggle = true
-		UpdateFile()
+		globals.UpdateFile()
 	else: 
 		globals.sfx_toggle = false
-		UpdateFile()
+		globals.UpdateFile()
 	pass # Replace with function body.
 
 
@@ -152,7 +157,7 @@ func _on_SfxSlider_value_changed(value):
 		globals.sfx_volume = value
 		globals.sfx_toggle = true
 		$SfxSlider/isSfxOn.pressed=true
-		UpdateFile()
+		globals.UpdateFile()
 	pass # Replace with function body.
 
 
@@ -171,3 +176,133 @@ func _on_SavegameInput_text_changed(new_text):
 		$NG_menu/SavegameInput.caret_position=new_text.length()
 	pass
 
+func _on_Savegames_pressed():
+	$Savegames_menu.visible = true
+	$VBoxContainer.visible = false
+	var files = globals.list_files_in_directory(globals.savefile_dir,"dat")
+	var number_of_saves = files.size()
+	var savegames = $Savegames_menu/Savegame_slots.get_children()
+	for i in range(0,number_of_saves):
+		savegames[i].visible = true
+		savegames[i].text = files[i]
+	pass # Replace with function body.
+
+
+func _on_Back_pressed():
+	$Savegames_menu.visible=false
+	$VBoxContainer.visible = true
+	pass # Replace with function body.
+
+func SlotChosen(node):
+	$Savegames_menu/Savegame_slots.visible = false
+	$Savegames_menu/Back.visible = false
+	$"Savegames_menu/Slot Options".visible = true
+	slot_node = node
+	pass
+
+func _on_slot1_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot1)
+	pass 
+
+
+func _on_slot2_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot2)
+	pass # Replace with function body.
+
+
+func _on_slot3_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot3)
+	pass # Replace with function body.
+
+
+func _on_slot4_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot4)
+	pass # Replace with function body.
+
+
+func _on_slot5_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot5)
+	pass # Replace with function body.
+
+
+func _on_slot6_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot6)
+	pass # Replace with function body.
+
+
+func _on_slot7_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot7)
+	pass # Replace with function body.
+
+
+func _on_slot8_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot8)
+	pass # Replace with function body.
+
+
+func _on_slot9_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot9)
+	pass # Replace with function body.
+
+
+func _on_slot10_pressed():
+	SlotChosen($Savegames_menu/Savegame_slots/slot10)
+	pass # Replace with function body.
+
+
+func _on_Back_Slot_pressed():
+	$Savegames_menu/Savegame_slots.visible = true
+	$Savegames_menu/Back.visible = true
+	$"Savegames_menu/Slot Options".visible = false
+	pass # Replace with function body.
+
+func _on_Remove_pressed():
+	if slot_node.text==globals.default_savegame:
+		$"Savegames_menu/Remove default".popup()
+		$Savegames_menu.visible=false
+		yield($"Savegames_menu/Remove default","popup_hide")
+		$Savegames_menu.visible=true
+		if(rmv_popup_choice==false):
+			return
+	rmv_popup_choice=false
+	globals.default_savegame="#"
+	globals.UpdateFile()
+	$VBoxContainer/Continue.visible=false
+	var dir = Directory.new()
+	dir.remove(globals.savefile_dir + slot_node.text)
+	slot_node.visible=false
+	_on_Back_Slot_pressed()
+		
+	pass 
+
+func _on_Default_pressed():
+	globals.default_savegame=slot_node.text
+	globals.UpdateFile()
+	$VBoxContainer/Continue.visible=true
+	_on_Back_Slot_pressed()
+	pass 
+
+
+func _on_Continue_pressed():
+	$VBoxContainer.visible=false
+	$SvgName_Continue.dialog_text = "Continue on savegame:\n" + globals.default_savegame + " ?"
+	$SvgName_Continue.popup()
+	yield($SvgName_Continue,"popup_hide")
+	if continue_popup_choice==true:
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://scenes/NG.tscn") # TODO: Load Game
+		continue_popup_choice=false
+	else:
+		$VBoxContainer.visible = true
+	pass 
+
+func _on_SvgName_Continue_confirmed():
+	continue_popup_choice = true
+	$SvgName_Continue.hide()
+	pass
+
+
+func _on_Remove_default_confirmed():
+	rmv_popup_choice=true
+	$"Savegames_menu/Remove default".hide()
+	pass 

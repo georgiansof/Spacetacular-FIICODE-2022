@@ -6,10 +6,21 @@ onready var options_file := "user://options.dat"
 onready var savefile_dir := "user://savegames/"
 
 var file := File.new()
-var music_volume := 0
-var sfx_volume := 0
+var music_volume := 100
+var sfx_volume := 100
 var music_toggle := true
 var sfx_toggle := true
+var default_savegame:= "#"
+
+func UpdateFile() -> void:
+	var strng = str(globals.music_volume) + "," + str(globals.sfx_volume) + \
+	"," + str(int(globals.music_toggle)) + "," + str(int(globals.sfx_toggle)) + \
+	"," + globals.default_savegame
+# warning-ignore:return_value_discarded
+	globals.file.open(globals.options_file, File.WRITE)
+	globals.file.store_string(strng)
+	globals.file.close()
+	pass
 
 func Init_Directories() -> void:
 	var dir = Directory.new()
@@ -20,21 +31,32 @@ func Init_Directories() -> void:
 func Init_Options() -> void:
 	if file.file_exists(options_file):
 # warning-ignore:return_value_discarded
+		var upd:=false
 		file.open(options_file, File.READ)
 		var input = file.get_as_text()
-		if input != "":
-			var settings = input.split(",")
+		var settings = input.split(",")
+		if(settings.size()>=1):
 			music_volume = int(settings[0])
+		else: upd=true
+		
+		if(settings.size()>=2):
 			sfx_volume = int(settings[1])
+		else: upd=true
+		
+		if(settings.size()>=3):
 			music_toggle = bool(int(settings[2]))
+		else: upd=true
+		
+		if(settings.size()>=4):
 			sfx_toggle = bool(int(settings[3]))
+		else: upd=true
+		
+		if(settings.size()>=5):
+			default_savegame = settings[4]
+		else: upd=true
+
 		file.close()
-	else: 
-# warning-ignore:return_value_discarded
-		file.open(options_file, File.WRITE)
-		var default_settings = "0,0,1,1"
-		file.store_string(default_settings)
-		file.close()
+		if upd==true: UpdateFile()
 	pass
 
 # Called when the node enters the scene tree for the first time.

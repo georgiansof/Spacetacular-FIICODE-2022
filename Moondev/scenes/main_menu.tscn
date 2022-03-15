@@ -62,6 +62,62 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -54.0
+margin_top = -218.0
+margin_right = 66.0
+margin_bottom = -98.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="Button" parent="VBoxContainer"]
+visible = false
+margin_right = 108.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "Continue"
+
+[node name="New Game" type="Button" parent="VBoxContainer"]
+margin_right = 120.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "New Game"
+
+[node name="Savegames" type="Button" parent="VBoxContainer"]
+margin_top = 31.0
+margin_right = 120.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 1 )
+text = "Savegames"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+margin_top = 62.0
+margin_right = 120.0
+margin_bottom = 89.0
+custom_fonts/font = ExtResource( 1 )
+text = "Options"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+margin_top = 93.0
+margin_right = 120.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 1 )
+text = "Quit"
+
+[node name="SvgName_Continue" type="ConfirmationDialog" parent="."]
+margin_left = 509.0
+margin_top = 386.0
+margin_right = 781.0
+margin_bottom = 461.0
+popup_exclusive = true
+window_title = "Awaiting confirmation"
+dialog_hide_on_ok = false
+
 [node name="MusicSlider" type="HSlider" parent="."]
 visible = false
 anchor_left = 0.5
@@ -125,56 +181,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -54.0
-margin_top = -218.0
-margin_right = 54.0
-margin_bottom = -126.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Continue" type="Button" parent="VBoxContainer"]
-visible = false
-margin_right = 108.0
-margin_bottom = 27.0
-custom_fonts/font = ExtResource( 1 )
-text = "Continue"
-
-[node name="New Game" type="Button" parent="VBoxContainer"]
-margin_right = 120.0
-margin_bottom = 27.0
-custom_fonts/font = ExtResource( 1 )
-text = "New Game"
-
-[node name="Savegames" type="Button" parent="VBoxContainer"]
-margin_top = 31.0
-margin_right = 120.0
-margin_bottom = 58.0
-custom_fonts/font = ExtResource( 1 )
-text = "Savegames"
-
-[node name="Options" type="Button" parent="VBoxContainer"]
-margin_top = 62.0
-margin_right = 120.0
-margin_bottom = 89.0
-custom_fonts/font = ExtResource( 1 )
-text = "Options"
-
-[node name="Quit" type="Button" parent="VBoxContainer"]
-margin_top = 93.0
-margin_right = 120.0
-margin_bottom = 120.0
-custom_fonts/font = ExtResource( 1 )
-text = "Quit"
-
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 autoplay = true
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
 
 [node name="options_back" type="Button" parent="."]
 visible = false
@@ -279,6 +290,7 @@ __meta__ = {
 }
 
 [node name="slot1" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_right = 147.0
 margin_bottom = 32.0
 custom_fonts/font = SubResource( 3 )
@@ -287,15 +299,16 @@ __meta__ = {
 }
 
 [node name="slot2" type="Button" parent="Savegames_menu/Savegame_slots"]
-margin_top = 36.0
+visible = false
 margin_right = 147.0
-margin_bottom = 68.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="slot3" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 72.0
 margin_right = 147.0
 margin_bottom = 104.0
@@ -305,6 +318,7 @@ __meta__ = {
 }
 
 [node name="slot4" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 108.0
 margin_right = 147.0
 margin_bottom = 140.0
@@ -314,6 +328,7 @@ __meta__ = {
 }
 
 [node name="slot5" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 144.0
 margin_right = 147.0
 margin_bottom = 176.0
@@ -323,6 +338,7 @@ __meta__ = {
 }
 
 [node name="slot6" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 180.0
 margin_right = 147.0
 margin_bottom = 212.0
@@ -332,6 +348,7 @@ __meta__ = {
 }
 
 [node name="slot7" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 216.0
 margin_right = 147.0
 margin_bottom = 248.0
@@ -341,6 +358,7 @@ __meta__ = {
 }
 
 [node name="slot8" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 252.0
 margin_right = 147.0
 margin_bottom = 284.0
@@ -350,6 +368,7 @@ __meta__ = {
 }
 
 [node name="slot9" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 288.0
 margin_right = 147.0
 margin_bottom = 320.0
@@ -359,6 +378,7 @@ __meta__ = {
 }
 
 [node name="slot10" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
 margin_top = 324.0
 margin_right = 147.0
 margin_bottom = 356.0
@@ -378,16 +398,110 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="Remove default" type="ConfirmationDialog" parent="Savegames_menu"]
+margin_left = 495.0
+margin_top = 388.0
+margin_right = 801.0
+margin_bottom = 463.0
+popup_exclusive = true
+window_title = "Awaiting confirmation"
+dialog_text = "Remove default savegame?
+You will have to select another one as default"
+dialog_hide_on_ok = false
+
+[node name="Slot Options" type="Control" parent="Savegames_menu"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Savegames_menu/Slot Options"]
+margin_left = 357.0
+margin_top = 370.0
+margin_right = 927.0
+margin_bottom = 394.0
+custom_fonts/font = SubResource( 2 )
+text = "What do you want to do with the savegame?"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Default" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 577.0
+margin_top = 427.0
+margin_right = 705.0
+margin_bottom = 454.0
+custom_fonts/font = ExtResource( 1 )
+text = "Make Default"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Load" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 581.0
+margin_top = 458.0
+margin_right = 702.0
+margin_bottom = 485.0
+custom_fonts/font = ExtResource( 1 )
+text = "Load"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Remove" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 584.0
+margin_top = 490.0
+margin_right = 704.0
+margin_bottom = 517.0
+custom_fonts/font = ExtResource( 1 )
+text = "Remove"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Savegames_menu/Slot Options"]
+anchor_left = 14.425
+anchor_top = 13.925
+anchor_right = 17.725
+anchor_bottom = 14.6
+custom_fonts/font = ExtResource( 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="pressed" from="VBoxContainer/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Savegames" to="." method="_on_Savegames_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="confirmed" from="SvgName_Continue" to="." method="_on_SvgName_Continue_confirmed"]
 [connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="toggled" from="MusicSlider/isMusicOn" to="." method="_on_isMusicOn_toggled"]
 [connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
 [connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
-[connection signal="pressed" from="VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
-[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
-[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
 [connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
 [connection signal="pressed" from="NG_menu/Back" to="." method="_on_Back_NG_pressed"]
 [connection signal="pressed" from="NG_menu/Create" to="." method="_on_Create_pressed"]
 [connection signal="text_changed" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_changed"]
 [connection signal="text_entered" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_entered"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot1" to="." method="_on_slot1_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot2" to="." method="_on_slot2_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot3" to="." method="_on_slot3_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot4" to="." method="_on_slot4_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot5" to="." method="_on_slot5_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot6" to="." method="_on_slot6_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot7" to="." method="_on_slot7_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot8" to="." method="_on_slot8_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot9" to="." method="_on_slot9_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot10" to="." method="_on_slot10_pressed"]
+[connection signal="pressed" from="Savegames_menu/Back" to="." method="_on_Back_pressed"]
+[connection signal="confirmed" from="Savegames_menu/Remove default" to="." method="_on_Remove_default_confirmed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Default" to="." method="_on_Default_pressed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Back" to="." method="_on_Back_Slot_pressed"]
