@@ -282,6 +282,23 @@ func _on_Default_pressed():
 	_on_Back_Slot_pressed()
 	pass 
 
+func Fade_Menu() -> void:
+	
+	pass
+
+func Load_Game(savegame) -> void:
+	var svg=File.new()
+	svg.open(globals.savefile_dir+savegame,File.READ)
+	var svg_content=svg.get_as_text()
+	svg.close()
+	
+	if svg_content=="":
+# warning-ignore:return_value_discarded
+		 Fade_Menu()
+		 get_tree().change_scene("res://scenes/NG.tscn") 
+	else:
+		pass # TODO: LOAD GAME
+	pass
 
 func _on_Continue_pressed():
 	$VBoxContainer.visible=false
@@ -290,7 +307,7 @@ func _on_Continue_pressed():
 	yield($SvgName_Continue,"popup_hide")
 	if continue_popup_choice==true:
 # warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/NG.tscn") # TODO: Load Game
+		Load_Game(globals.default_savegame)
 		continue_popup_choice=false
 	else:
 		$VBoxContainer.visible = true
@@ -306,3 +323,9 @@ func _on_Remove_default_confirmed():
 	rmv_popup_choice=true
 	$"Savegames_menu/Remove default".hide()
 	pass 
+
+
+
+func _on_Load_pressed():
+	Load_Game(slot_node.text)
+	pass # Replace with function body.
