@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
-[ext_resource path="res://soundtrack/sound_res (2).wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
 [ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
@@ -185,8 +184,6 @@ __meta__ = {
 }
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-autoplay = true
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 
@@ -401,7 +398,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Remove default" type="ConfirmationDialog" parent="Savegames_menu"]
+[node name="Remove" type="ConfirmationDialog" parent="Savegames_menu"]
 margin_left = 495.0
 margin_top = 388.0
 margin_right = 801.0
@@ -489,6 +486,7 @@ __meta__ = {
 [connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
 [connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
 [connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
+[connection signal="popup_hide" from="SvgPopUp" to="." method="_on_SvgPopUp_popup_hide"]
 [connection signal="pressed" from="NG_menu/Back" to="." method="_on_Back_NG_pressed"]
 [connection signal="pressed" from="NG_menu/Create" to="." method="_on_Create_pressed"]
 [connection signal="text_changed" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_changed"]
@@ -504,7 +502,7 @@ __meta__ = {
 [connection signal="pressed" from="Savegames_menu/Savegame_slots/slot9" to="." method="_on_slot9_pressed"]
 [connection signal="pressed" from="Savegames_menu/Savegame_slots/slot10" to="." method="_on_slot10_pressed"]
 [connection signal="pressed" from="Savegames_menu/Back" to="." method="_on_Back_pressed"]
-[connection signal="confirmed" from="Savegames_menu/Remove default" to="." method="_on_Remove_default_confirmed"]
+[connection signal="confirmed" from="Savegames_menu/Remove" to="." method="_on_Remove_confirmed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Default" to="." method="_on_Default_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Load" to="." method="_on_Load_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]

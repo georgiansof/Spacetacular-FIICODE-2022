@@ -1,6 +1,14 @@
 extends Node
 
+# PLAYER
 
+var player_state:="Stand_Right"
+var player_facing:="right"
+var on_rocket:=false
+
+#
+
+# MAIN MENU
 
 onready var options_file := "user://options.dat"
 onready var savefile_dir := "user://savegames/"
@@ -83,6 +91,4 @@ func list_files_in_directory(path,ext):
 
 	return files
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+#
