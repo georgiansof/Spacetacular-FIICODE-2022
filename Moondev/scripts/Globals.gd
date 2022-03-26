@@ -19,11 +19,12 @@ var sfx_volume := 100
 var music_toggle := true
 var sfx_toggle := true
 var default_savegame:= "#"
+var fadecheck := true
 
 func UpdateFile() -> void:
 	var strng = str(globals.music_volume) + "," + str(globals.sfx_volume) + \
 	"," + str(int(globals.music_toggle)) + "," + str(int(globals.sfx_toggle)) + \
-	"," + globals.default_savegame
+	"," + str(int(fadecheck)) + "," + globals.default_savegame
 # warning-ignore:return_value_discarded
 	globals.file.open(globals.options_file, File.WRITE)
 	globals.file.store_string(strng)
@@ -60,7 +61,10 @@ func Init_Options() -> void:
 		else: upd=true
 		
 		if(settings.size()>=5):
-			default_savegame = settings[4]
+			fadecheck = bool(int(settings[4]))
+		
+		if(settings.size()>=6):
+			default_savegame = settings[5]
 		else: upd=true
 
 		file.close()

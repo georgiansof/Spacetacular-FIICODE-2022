@@ -11,11 +11,23 @@ var button_press_sfx = preload("res://sfx/button_advance.wav")
 var button_back_sfx = preload("res://sfx/button_back.wav")
 var attention_popup_sfx = preload("res://sfx/attention_popup.wav")
 var dialogue_popup_sfx = preload("res://sfx/dialogue_popup.wav")
-var err_sfx = preload("res://sfx/err.wav")
 var quit_sfx = preload("res://sfx/quit.wav")
 var timer
+var play_ng_sfx := true
+onready var mod = $"Game Title".get_modulate()
+onready var vboxmod = $VBoxContainer.get_modulate()
+var modspeed := 1.5
+var vboxmodspeed := 2.5
+var buttons_disabled := false
 
 func _ready():
+	$"SfxSlider/Fade Enable/CheckButton".pressed = globals.fadecheck
+	if globals.fadecheck == true:
+		mod.a = 0
+		vboxmod.a = 0
+		buttons_disabled = true
+		$"Game Title".set_modulate(mod)
+		$VBoxContainer.set_modulate(vboxmod)
 	timer = get_tree().create_timer(0.0)
 	var children = self.get_children()
 	for i in range (0,children.size()):
@@ -31,6 +43,22 @@ func _ready():
 	get_node("SfxSlider/isSfxOn").pressed = globals.sfx_toggle
 	$"VBoxContainer/New Game".grab_focus()
 	pass 
+
+func _process(delta):
+	if mod.a + 1.0/modspeed * delta < 1 :
+		mod.a += 1.0/modspeed * delta
+	else:
+		mod.a = 1
+		
+	if mod.a ==1:
+		if vboxmod.a + 1.0/vboxmodspeed * delta < 1 :
+			vboxmod.a += 1.0/vboxmodspeed * delta
+		else:
+			vboxmod.a = 1
+			buttons_disabled = false
+	$"Game Title".set_modulate(mod)
+	$VBoxContainer.set_modulate(vboxmod)
+	pass
 
 func Hide_UI() -> void:
 	$NG_menu.visible = true
@@ -68,8 +96,12 @@ func CheckNumberOfSaves() -> int:
 	return files.size()
 
 func _on_New_Game_pressed():
-	$SFX.stream = button_press_sfx
-	$SFX.play()
+	if buttons_disabled:
+		return
+	if play_ng_sfx:
+		$SFX.stream = button_press_sfx
+		$SFX.play()
+	play_ng_sfx = false
 	Hide_UI()
 	if CheckNumberOfSaves()>=10:
 		$NG_menu.visible=false
@@ -108,6 +140,8 @@ func _on_New_Game_pressed():
 	pass
 
 func _on_Options_pressed():
+	if buttons_disabled:
+		return
 	$SFX.stream=button_press_sfx
 	$SFX.play()
 	get_node("VBoxContainer").visible=false
@@ -117,6 +151,8 @@ func _on_Options_pressed():
 	pass
 
 func _on_Quit_pressed():
+	if buttons_disabled:
+		return
 	if timer.time_left <= 0.0:
 		SFXPlayer.stream = quit_sfx
 		SFXPlayer.play()
@@ -167,7 +203,7 @@ func _on_isMusicOn_toggled(button_pressed):
 func _on_isSfxOn_toggled(button_pressed):
 	var stream = $SFX
 	if get_node("SfxSlider/isSfxOn").is_pressed():
-		stream.volume_db = - linear2db(get_node("SFX").value/100.0)
+		stream.volume_db = linear2db(get_node("SfxSlider").value/100.0*0.2)
 		globals.sfx_toggle = true
 		globals.UpdateFile()
 	else: 
@@ -179,7 +215,7 @@ func _on_isSfxOn_toggled(button_pressed):
 
 func _on_SfxSlider_value_changed(value):
 	var stream = get_node("SFX")
-	stream.volume_db = linear2db(value/100.0)
+	stream.volume_db = linear2db(value/100.0*0.2)
 	if value!=globals.sfx_volume:
 		globals.sfx_volume = value
 		globals.sfx_toggle = true
@@ -191,6 +227,7 @@ func _on_SfxSlider_value_changed(value):
 func _on_Back_NG_pressed():
 	$SFX.stream = button_back_sfx
 	$SFX.play()
+	play_ng_sfx = true
 	$NG_menu.visible = false
 	$VBoxContainer.visible = true
 	pass 
@@ -206,6 +243,8 @@ func _on_SavegameInput_text_changed(new_text):
 	pass
 
 func _on_Savegames_pressed():
+	if buttons_disabled:
+		return
 	$SFX.stream = button_press_sfx
 	$SFX.play()
 	$Savegames_menu.visible = true
@@ -304,8 +343,9 @@ func _on_slot10_pressed():
 
 
 func _on_Back_Slot_pressed():
-	$SFX.stream = button_back_sfx
-	$SFX.play()
+	if rmv_popup_choice==false:
+		$SFX.stream = button_back_sfx
+		$SFX.play()
 	$Savegames_menu/Savegame_slots.visible = true
 	$Savegames_menu/Back.visible = true
 	$"Savegames_menu/Slot Options".visible = false
@@ -313,9 +353,13 @@ func _on_Back_Slot_pressed():
 
 func _on_Remove_pressed():
 	if slot_node.text==globals.default_savegame:
-		$"Savegames_menu/Remove".dialog_text="Remove savegame?\nYou will have to select another one as default."
+		$"Savegames_menu/Remove".dialog_text="    Are you sure you want to remove this savegame?\n       You will have to select another one as default."
+		$Savegames_menu/Remove.get_cancel().text = "Cancel"
+		$Savegames_menu/Remove.get_ok().text = "Ok"
 	else:
-		$"Savegames_menu/Remove".dialog_text = "Are you sure you want to Remove this savegame?"
+		$"Savegames_menu/Remove".dialog_text = "     Are you sure you want to remove this savegame?"
+		$Savegames_menu/Remove.get_cancel().text = "No"
+		$Savegames_menu/Remove.get_ok().text = "Yes"
 	$"Savegames_menu/Remove".popup()
 	$SFX.stream = dialogue_popup_sfx
 	$SFX.play()
@@ -335,6 +379,8 @@ func _on_Remove_pressed():
 	pass 
 
 func _on_Default_pressed():
+	$SFX.stream = button_press_sfx
+	$SFX.play()
 	globals.default_savegame=slot_node.text
 	globals.UpdateFile()
 	$VBoxContainer/Continue.visible=true
@@ -360,6 +406,8 @@ func Load_Game(savegame) -> void:
 	pass
 
 func _on_Continue_pressed():
+	if buttons_disabled:
+		return
 	$VBoxContainer.visible=false
 	$SvgName_Continue.dialog_text = "Continue on savegame:\n" + globals.default_savegame + " ?"
 	$SvgName_Continue.popup()
@@ -376,6 +424,10 @@ func _on_Continue_pressed():
 
 func _on_SvgName_Continue_confirmed():
 	continue_popup_choice = true
+	$SFX.stream = button_press_sfx
+	$SFX.play()
+	timer = get_tree().create_timer(1.0)
+	yield(timer,"timeout")
 	$SvgName_Continue.hide()
 	pass
 
@@ -389,13 +441,39 @@ func _on_Remove_confirmed():
 func _on_Load_pressed():
 	$SFX.stream = button_press_sfx
 	$SFX.play()
+	if globals.default_savegame=="#":
+		globals.default_savegame = slot_node.text
+		globals.UpdateFile()
 	Load_Game(slot_node.text)
 	pass # Replace with function body.
 
-
-
 func _on_SvgPopUp_popup_hide():
-	if popup_choice == false:  # FIXME + add la restul popup-urilor
+	if popup_choice == false:	# FIXME
 		$SFX.stream = button_press_sfx
 		$SFX.play()
+	pass 
+
+
+func _on_SvgErrPopUp_confirmed():
+	$SFX.stream = button_press_sfx
+	$SFX.play()
+	pass 
+
+
+func _on_SvgName_Continue_popup_hide():
+	if continue_popup_choice == false:
+		$SFX.stream = button_back_sfx
+		$SFX.play()
+	pass 
+
+func _on_Remove_popup_hide():
+	if rmv_popup_choice==false:
+		$SFX.stream = button_back_sfx
+		$SFX.play()
+	pass # Replace with function body.
+
+
+func _on_Fade_CheckButton_toggled(button_pressed):
+	globals.fadecheck = button_pressed
+	globals.UpdateFile()
 	pass 

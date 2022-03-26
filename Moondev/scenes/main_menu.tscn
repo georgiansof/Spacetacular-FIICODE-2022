@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://soundtrack/main_theme.wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
 [ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
@@ -28,6 +29,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
+z_as_relative = false
 anchor_mode = 0
 current = true
 
@@ -183,16 +185,38 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Fade Enable" type="Label" parent="SfxSlider"]
+margin_left = -23.0
+margin_top = 75.0
+margin_right = 164.0
+margin_bottom = 89.0
+text = "Enable fade effect on start-up"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckButton" type="CheckButton" parent="SfxSlider/Fade Enable"]
+margin_left = 186.0
+margin_top = -12.0
+margin_right = 262.0
+margin_bottom = 28.0
+pressed = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 
 [node name="options_back" type="Button" parent="."]
 visible = false
-margin_left = 587.0
-margin_top = 417.0
-margin_right = 695.0
-margin_bottom = 444.0
+margin_left = 590.0
+margin_top = 469.0
+margin_right = 698.0
+margin_bottom = 496.0
 custom_fonts/font = ExtResource( 1 )
 text = "Back"
 __meta__ = {
@@ -209,14 +233,16 @@ dialog_text = "Savegame already exists. Overwrite?"
 dialog_hide_on_ok = false
 
 [node name="SvgErrPopUp" type="AcceptDialog" parent="."]
-margin_left = 531.0
-margin_top = 369.0
-margin_right = 743.0
-margin_bottom = 427.0
+margin_left = 499.0
+margin_top = 367.0
+margin_right = 788.0
+margin_bottom = 466.0
 grow_horizontal = 2
 popup_exclusive = true
-dialog_text = "          You have too many savegames.
-Use the Savegames button to remove one."
+dialog_text = "         You have too many savegames!
+	 Use the Savegames menu to remove one
+	            in order to start a new game. "
+dialog_autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -399,14 +425,14 @@ __meta__ = {
 }
 
 [node name="Remove" type="ConfirmationDialog" parent="Savegames_menu"]
-margin_left = 495.0
-margin_top = 388.0
-margin_right = 801.0
-margin_bottom = 463.0
+margin_left = 461.0
+margin_top = 386.0
+margin_right = 836.0
+margin_bottom = 461.0
 popup_exclusive = true
 window_title = "Awaiting confirmation"
-dialog_text = "Remove default savegame?
-You will have to select another one as default"
+dialog_text = "Are you sure you want to remove the default savegame?
+         You will have to select another one as default"
 dialog_hide_on_ok = false
 
 [node name="Slot Options" type="Control" parent="Savegames_menu"]
@@ -480,13 +506,16 @@ __meta__ = {
 [connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
 [connection signal="confirmed" from="SvgName_Continue" to="." method="_on_SvgName_Continue_confirmed"]
+[connection signal="popup_hide" from="SvgName_Continue" to="." method="_on_SvgName_Continue_popup_hide"]
 [connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="toggled" from="MusicSlider/isMusicOn" to="." method="_on_isMusicOn_toggled"]
 [connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
 [connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
+[connection signal="toggled" from="SfxSlider/Fade Enable/CheckButton" to="." method="_on_Fade_CheckButton_toggled"]
 [connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
 [connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
 [connection signal="popup_hide" from="SvgPopUp" to="." method="_on_SvgPopUp_popup_hide"]
+[connection signal="confirmed" from="SvgErrPopUp" to="." method="_on_SvgErrPopUp_confirmed"]
 [connection signal="pressed" from="NG_menu/Back" to="." method="_on_Back_NG_pressed"]
 [connection signal="pressed" from="NG_menu/Create" to="." method="_on_Create_pressed"]
 [connection signal="text_changed" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_changed"]
@@ -503,6 +532,7 @@ __meta__ = {
 [connection signal="pressed" from="Savegames_menu/Savegame_slots/slot10" to="." method="_on_slot10_pressed"]
 [connection signal="pressed" from="Savegames_menu/Back" to="." method="_on_Back_pressed"]
 [connection signal="confirmed" from="Savegames_menu/Remove" to="." method="_on_Remove_confirmed"]
+[connection signal="popup_hide" from="Savegames_menu/Remove" to="." method="_on_Remove_popup_hide"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Default" to="." method="_on_Default_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Load" to="." method="_on_Load_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]
