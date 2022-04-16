@@ -11,16 +11,27 @@ var button_press_sfx = preload("res://sfx/button_advance.wav")
 var button_back_sfx = preload("res://sfx/button_back.wav")
 var attention_popup_sfx = preload("res://sfx/attention_popup.wav")
 var dialogue_popup_sfx = preload("res://sfx/dialogue_popup.wav")
+var impact_sfx = preload("res://sfx/low-impact.wav")
 var quit_sfx = preload("res://sfx/quit.wav")
 var timer
 var play_ng_sfx := true
 onready var mod = $"Game Title".get_modulate()
 onready var vboxmod = $VBoxContainer.get_modulate()
+onready var main_mod = self.get_modulate()
 var modspeed := 1.5
 var vboxmodspeed := 2.5
+var main_modspeed := 1
 var buttons_disabled := false
+var fading := false
+
+onready var tween_out = $TweenOut
+onready var tween = $Tween
+
+export var transition_duration = 1.00
+export var transition_type = 1
 
 func _ready():
+	fade_in($Music)
 	$"SfxSlider/Fade Enable/CheckButton".pressed = globals.fadecheck
 	if globals.fadecheck == true:
 		mod.a = 0
@@ -31,7 +42,7 @@ func _ready():
 	timer = get_tree().create_timer(0.0)
 	var children = self.get_children()
 	for i in range (0,children.size()):
-		if children[i].name!="Music" && children[i].name!="SFX": children[i].visible = false
+		if children[i].name!="Music" && children[i].name!="SFX" && children[i].name!="Tween" && children[i].name!="TweenOut": children[i].visible = false
 	for i in range (0,4):
 		children[i].visible = true
 	
@@ -45,6 +56,12 @@ func _ready():
 	pass 
 
 func _process(delta):
+	if fading:
+		if main_mod.a - 1.0/main_modspeed * delta > 0:
+			main_mod.a -= 1.0/main_modspeed * delta
+		else:
+			main_mod.a = 0
+	
 	if mod.a + 1.0/modspeed * delta < 1 :
 		mod.a += 1.0/modspeed * delta
 	else:
@@ -58,6 +75,7 @@ func _process(delta):
 			buttons_disabled = false
 	$"Game Title".set_modulate(mod)
 	$VBoxContainer.set_modulate(vboxmod)
+	self.set_modulate(main_mod)
 	pass
 
 func Hide_UI() -> void:
@@ -79,15 +97,21 @@ func _on_SavegameInput_text_entered(new_text):
 	pass 
 
 func _on_Create_pressed():
+	fade_out($Music)
+	if CheckFileExists($NG_menu/SavegameInput.text+".dat"):
+		$SFX.stream = button_press_sfx
+		timer = get_tree().create_timer(1.0)
+		$SFX.play()
+		$NG_menu/Create.disabled = true
+		$NG_menu/Back.disabled = true
+		yield(timer, "timeout")
 	$NG_menu/SavegameInput.emit_signal("text_entered",$NG_menu/SavegameInput.text)
+	$NG_menu/Create.disabled = false
+	$NG_menu/Back.disabled = false
 	pass 
 	
 func _on_SvgPopUp_confirmed():
 	popup_choice = true
-	$SFX.stream=button_press_sfx
-	$SFX.play()
-	timer = get_tree().create_timer(1.0)
-	yield(timer, "timeout")
 	$SvgPopUp.hide()
 	pass 
 	
@@ -125,8 +149,14 @@ func _on_New_Game_pressed():
 		$SFX.stream = dialogue_popup_sfx
 		$SFX.play()
 		yield($SvgPopUp,"popup_hide")
+			
 		#
 	if !file_exists || popup_choice==true:
+			fading=true
+			$SFX.stream=impact_sfx
+			$SFX.play()
+			timer = get_tree().create_timer(3.5)
+			yield(timer, "timeout")
 			var file=File.new()
 			file.open(globals.savefile_dir+name+".dat",File.WRITE)
 			file.store_string("")
@@ -134,7 +164,9 @@ func _on_New_Game_pressed():
 			globals.default_savegame=name+".dat"
 			globals.UpdateFile()
 # warning-ignore:return_value_discarded
-			get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
+			globals.current_savegame=name+".dat"
+			Load_Game(globals.current_savegame)
+			#get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
 	elif file_exists && popup_choice==false:
 		yield(_on_New_Game_pressed(),"completed")
 	pass
@@ -215,7 +247,7 @@ func _on_isSfxOn_toggled(button_pressed):
 
 func _on_SfxSlider_value_changed(value):
 	var stream = get_node("SFX")
-	stream.volume_db = linear2db(value/100.0*0.2)
+	stream.volume_db = linear2db(value/100.0)
 	if value!=globals.sfx_volume:
 		globals.sfx_volume = value
 		globals.sfx_toggle = true
@@ -387,23 +419,36 @@ func _on_Default_pressed():
 	_on_Back_Slot_pressed()
 	pass 
 
-func Fade_Menu() -> void:
-	
-	pass
-
 func Load_Game(savegame) -> void:
 	var svg=File.new()
 	svg.open(globals.savefile_dir+savegame,File.READ)
 	var svg_content=svg.get_as_text()
 	svg.close()
-	
+	globals.current_savegame = savegame
 	if svg_content=="":
 # warning-ignore:return_value_discarded
-		 Fade_Menu()
-		 get_tree().change_scene("res://scenes/NG.tscn") 
+		get_tree().change_scene("res://scenes/NG.tscn")
 	else:
-		pass # TODO: LOAD GAME
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://scenes/overworld.tscn")
+		# TODO LOAD GAME
+		pass 
 	pass
+
+func fade_out(stream_player):
+	# tween music volume down to 0
+	tween_out.interpolate_property(stream_player, "volume_db", stream_player.volume_db, -80, transition_duration, transition_type, Tween.EASE_IN, 0)
+	tween_out.start()
+
+func fade_in(stream_player):
+	# tween music volume down to 0
+	tween.interpolate_property(stream_player, "volume_db", -80, stream_player.volume_db, transition_duration, transition_type, Tween.EASE_IN, 0)
+	tween.start()
+
+# warning-ignore:unused_argument
+func _on_TweenOut_tween_completed(object, key):
+	# stop the music -- otherwise it continues to run at silent volume
+	object.stop()
 
 func _on_Continue_pressed():
 	if buttons_disabled:
@@ -415,6 +460,11 @@ func _on_Continue_pressed():
 	$SFX.play()
 	yield($SvgName_Continue,"popup_hide")
 	if continue_popup_choice==true:
+		fading = true
+		$SFX.stream = impact_sfx
+		$SFX.play()
+		timer = get_tree().create_timer(3.5)
+		yield(timer, "timeout")
 # warning-ignore:return_value_discarded
 		Load_Game(globals.default_savegame)
 		continue_popup_choice=false
@@ -423,11 +473,8 @@ func _on_Continue_pressed():
 	pass 
 
 func _on_SvgName_Continue_confirmed():
+	fade_out($Music)
 	continue_popup_choice = true
-	$SFX.stream = button_press_sfx
-	$SFX.play()
-	timer = get_tree().create_timer(1.0)
-	yield(timer,"timeout")
 	$SvgName_Continue.hide()
 	pass
 
@@ -448,7 +495,7 @@ func _on_Load_pressed():
 	pass # Replace with function body.
 
 func _on_SvgPopUp_popup_hide():
-	if popup_choice == false:	# FIXME
+	if popup_choice == false:
 		$SFX.stream = button_press_sfx
 		$SFX.play()
 	pass 

@@ -500,6 +500,10 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="TweenOut" type="Tween" parent="."]
+
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="pressed" from="VBoxContainer/Continue" to="." method="_on_Continue_pressed"]
 [connection signal="pressed" from="VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Savegames" to="." method="_on_Savegames_pressed"]
@@ -537,3 +541,4 @@ __meta__ = {
 [connection signal="pressed" from="Savegames_menu/Slot Options/Load" to="." method="_on_Load_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Back" to="." method="_on_Back_Slot_pressed"]
+[connection signal="tween_completed" from="TweenOut" to="." method="_on_TweenOut_tween_completed"]

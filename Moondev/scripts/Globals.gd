@@ -8,6 +8,8 @@ var on_rocket:=false
 
 #
 
+var current_savegame
+
 # MAIN MENU
 
 onready var options_file := "user://options.dat"
@@ -96,3 +98,17 @@ func list_files_in_directory(path,ext):
 	return files
 
 #
+
+func Save(savegame:String,settings:Dictionary) -> void:
+	var savefile = File.new()
+	savefile.open(savefile_dir+savegame, File.WRITE)
+	savefile.store_string(var2str(settings))
+	savefile.close()
+	pass
+	
+func Load(savegame:String) -> Dictionary:
+	var savefile = File.new()
+	savefile.open(savefile_dir+savegame, File.READ)
+	var read_dictionary = str2var(savefile.get_as_text())
+	savefile.close()
+	return read_dictionary
