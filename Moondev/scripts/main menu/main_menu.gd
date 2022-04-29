@@ -97,7 +97,6 @@ func _on_SavegameInput_text_entered(new_text):
 	pass 
 
 func _on_Create_pressed():
-	fade_out($Music)
 	if CheckFileExists($NG_menu/SavegameInput.text+".dat"):
 		$SFX.stream = button_press_sfx
 		timer = get_tree().create_timer(1.0)
@@ -111,6 +110,7 @@ func _on_Create_pressed():
 	pass 
 	
 func _on_SvgPopUp_confirmed():
+	fade_out($Music)
 	popup_choice = true
 	$SvgPopUp.hide()
 	pass 
@@ -166,7 +166,7 @@ func _on_New_Game_pressed():
 # warning-ignore:return_value_discarded
 			globals.current_savegame=name+".dat"
 			Load_Game(globals.current_savegame)
-			#get_tree().change_scene("res://scenes/NG.tscn") # exit the main menu and start NG
+
 	elif file_exists && popup_choice==false:
 		yield(_on_New_Game_pressed(),"completed")
 	pass
@@ -235,7 +235,7 @@ func _on_isMusicOn_toggled(button_pressed):
 func _on_isSfxOn_toggled(button_pressed):
 	var stream = $SFX
 	if get_node("SfxSlider/isSfxOn").is_pressed():
-		stream.volume_db = linear2db(get_node("SfxSlider").value/100.0*0.2)
+		stream.volume_db = linear2db(get_node("SfxSlider").value/100.0)
 		globals.sfx_toggle = true
 		globals.UpdateFile()
 	else: 
@@ -425,7 +425,7 @@ func Load_Game(savegame) -> void:
 	var svg_content=svg.get_as_text()
 	svg.close()
 	globals.current_savegame = savegame
-	if svg_content=="":
+	if svg_content=="" || (str2var(svg_content).has("NG") && str2var(svg_content)["NG"]==true):
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/NG.tscn")
 	else:

@@ -6,15 +6,25 @@ extends Node2D
 # var b = "text"
 var backstory = preload("res://scenes/vid_res/backstory.webm")
 var backstory_loaded := false
+onready var tween = $Tween
+onready var skiplabel = $Skip
 
 func _ready():
 	$VideoPlayer.volume_db = linear2db(globals.music_volume/100.0)
-	pass
+	var savefile = File.new()
+	savefile.open(globals.savefile_dir+globals.current_savegame, File.READ)
+	var text = savefile.get_as_text()
+	savefile.close()
+	tween.interpolate_property(skiplabel, "modulate", Color(1,1,1,0), Color(1,1,1,1), 2.0, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.start()
+	if text!="":
+		_on_VideoPlayer_finished()
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Input.is_action_just_pressed("action_skip") && backstory_loaded==false:
+	if Input.is_action_just_pressed("action_skip"):
 		$VideoPlayer.stop()
 		$VideoPlayer.emit_signal("finished")
 	pass
@@ -32,5 +42,7 @@ func _on_VideoPlayer_finished():
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/overworld.tscn")
 	else:
+		var settings:= {"NG" : true}
+		globals.Save(globals.current_savegame,settings)
 		Load_Backstory()
 	pass 
