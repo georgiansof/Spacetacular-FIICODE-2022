@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/rocket_boosting.wav-3ebe5442648b781dc9def00b730bddab.sample"
+
+[deps]
+
+source_file="res://sfx/rocket_boosting.wav"
+dest_files=[ "res://.import/rocket_boosting.wav-3ebe5442648b781dc9def00b730bddab.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

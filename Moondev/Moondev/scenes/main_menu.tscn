@@ -1,0 +1,544 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/main menu/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://soundtrack/main_theme.wav" type="AudioStream" id=4]
+[ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
+[ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
+[ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 56
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 2 )
+
+[node name="Main Menu UI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+z_as_relative = false
+anchor_mode = 0
+current = true
+
+[node name="main_bg" type="Node2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="main_bg_left_down" type="Sprite" parent="main_bg"]
+position = Vector2( -640, 360 )
+texture = ExtResource( 5 )
+
+[node name="main_bg_right_down" type="Sprite" parent="main_bg"]
+position = Vector2( 640, 360 )
+texture = ExtResource( 5 )
+
+[node name="main_bg_left_up" type="Sprite" parent="main_bg"]
+position = Vector2( 640, 0 )
+texture = ExtResource( 5 )
+offset = Vector2( -1280, -360 )
+
+[node name="main_bg_right_up" type="Sprite" parent="main_bg"]
+position = Vector2( 640, -360 )
+texture = ExtResource( 5 )
+
+[node name="Game Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -242.0
+margin_top = 83.0
+margin_right = 242.0
+margin_bottom = 216.0
+custom_fonts/font = SubResource( 1 )
+text = "Spacetacular"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -54.0
+margin_top = -218.0
+margin_right = 66.0
+margin_bottom = -98.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="Button" parent="VBoxContainer"]
+visible = false
+margin_right = 108.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "Continue"
+
+[node name="New Game" type="Button" parent="VBoxContainer"]
+margin_right = 120.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+text = "New Game"
+
+[node name="Savegames" type="Button" parent="VBoxContainer"]
+margin_top = 31.0
+margin_right = 120.0
+margin_bottom = 58.0
+custom_fonts/font = ExtResource( 1 )
+text = "Savegames"
+
+[node name="Options" type="Button" parent="VBoxContainer"]
+margin_top = 62.0
+margin_right = 120.0
+margin_bottom = 89.0
+custom_fonts/font = ExtResource( 1 )
+text = "Options"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+margin_top = 93.0
+margin_right = 120.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 1 )
+text = "Quit"
+
+[node name="SvgName_Continue" type="ConfirmationDialog" parent="."]
+margin_left = 509.0
+margin_top = 386.0
+margin_right = 781.0
+margin_bottom = 461.0
+popup_exclusive = true
+window_title = "Awaiting confirmation"
+dialog_hide_on_ok = false
+
+[node name="MusicSlider" type="HSlider" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -71.0
+margin_right = 61.0
+margin_bottom = 19.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MusicSlider"]
+margin_top = 20.0
+margin_right = 91.0
+margin_bottom = 34.0
+text = "Music Volume"
+align = 1
+valign = 1
+
+[node name="isMusicOn" type="CheckButton" parent="MusicSlider"]
+margin_left = 162.5
+margin_top = 26.0
+margin_right = 238.5
+margin_bottom = 66.0
+rect_pivot_offset = Vector2( -879, -61 )
+pressed = true
+
+[node name="SfxSlider" type="HSlider" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -15.0
+margin_right = 61.0
+margin_bottom = 75.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SfxSlider"]
+margin_top = 17.0
+margin_right = 75.0
+margin_bottom = 31.0
+text = "SFX Volume"
+align = 1
+valign = 1
+
+[node name="isSfxOn" type="CheckButton" parent="SfxSlider"]
+margin_left = 164.0
+margin_top = 25.0
+margin_right = 240.0
+margin_bottom = 65.0
+rect_pivot_offset = Vector2( -879, -61 )
+pressed = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fade Enable" type="Label" parent="SfxSlider"]
+margin_left = -23.0
+margin_top = 75.0
+margin_right = 164.0
+margin_bottom = 89.0
+text = "Enable fade effect on start-up"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckButton" type="CheckButton" parent="SfxSlider/Fade Enable"]
+margin_left = 186.0
+margin_top = -12.0
+margin_right = 262.0
+margin_bottom = 28.0
+pressed = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+
+[node name="options_back" type="Button" parent="."]
+visible = false
+margin_left = 590.0
+margin_top = 469.0
+margin_right = 698.0
+margin_bottom = 496.0
+custom_fonts/font = ExtResource( 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SvgPopUp" type="ConfirmationDialog" parent="."]
+margin_left = 522.0
+margin_top = 373.0
+margin_right = 771.0
+margin_bottom = 443.0
+popup_exclusive = true
+dialog_text = "Savegame already exists. Overwrite?"
+dialog_hide_on_ok = false
+
+[node name="SvgErrPopUp" type="AcceptDialog" parent="."]
+margin_left = 499.0
+margin_top = 367.0
+margin_right = 788.0
+margin_bottom = 466.0
+grow_horizontal = 2
+popup_exclusive = true
+dialog_text = "         You have too many savegames!
+	 Use the Savegames menu to remove one
+	            in order to start a new game. "
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NG_menu" type="Control" parent="."]
+visible = false
+margin_left = 586.0
+margin_top = 502.0
+margin_right = 626.0
+margin_bottom = 542.0
+
+[node name="Back" type="Button" parent="NG_menu"]
+margin_left = -11.0
+margin_top = 85.0
+margin_right = 121.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 1 )
+text = "Back to menu"
+
+[node name="Create" type="Button" parent="NG_menu"]
+margin_left = -11.0
+margin_top = 51.0
+margin_right = 121.0
+margin_bottom = 78.0
+custom_fonts/font = ExtResource( 1 )
+text = "Create"
+
+[node name="EnterSvg_Label" type="Label" parent="NG_menu"]
+margin_left = -229.0
+margin_top = -93.0
+margin_right = 341.0
+margin_bottom = -69.0
+custom_fonts/font = SubResource( 2 )
+text = "Enter the new savegame name below (latin alphanumeric)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SavegameInput" type="LineEdit" parent="NG_menu"]
+margin_left = -82.0
+margin_top = -38.0
+margin_right = 191.0
+margin_bottom = -14.0
+align = 1
+max_length = 32
+virtual_keyboard_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Savegames_menu" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Savegame_slots" type="VBoxContainer" parent="Savegames_menu"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 547.0
+margin_top = 170.0
+margin_right = 694.0
+margin_bottom = 545.0
+grow_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slot1" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_right = 147.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot2" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_right = 147.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot3" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 72.0
+margin_right = 147.0
+margin_bottom = 104.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot4" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 108.0
+margin_right = 147.0
+margin_bottom = 140.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot5" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 144.0
+margin_right = 147.0
+margin_bottom = 176.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot6" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 180.0
+margin_right = 147.0
+margin_bottom = 212.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot7" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 216.0
+margin_right = 147.0
+margin_bottom = 248.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot8" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 252.0
+margin_right = 147.0
+margin_bottom = 284.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot9" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 288.0
+margin_right = 147.0
+margin_bottom = 320.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="slot10" type="Button" parent="Savegames_menu/Savegame_slots"]
+visible = false
+margin_top = 324.0
+margin_right = 147.0
+margin_bottom = 356.0
+custom_fonts/font = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Back" type="Button" parent="Savegames_menu"]
+anchor_left = 14.375
+anchor_top = 14.7
+anchor_right = 17.675
+anchor_bottom = 15.375
+custom_fonts/font = ExtResource( 1 )
+text = "Back to menu"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Remove" type="ConfirmationDialog" parent="Savegames_menu"]
+margin_left = 461.0
+margin_top = 386.0
+margin_right = 836.0
+margin_bottom = 461.0
+popup_exclusive = true
+window_title = "Awaiting confirmation"
+dialog_text = "Are you sure you want to remove the default savegame?
+         You will have to select another one as default"
+dialog_hide_on_ok = false
+
+[node name="Slot Options" type="Control" parent="Savegames_menu"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Savegames_menu/Slot Options"]
+margin_left = 357.0
+margin_top = 370.0
+margin_right = 927.0
+margin_bottom = 394.0
+custom_fonts/font = SubResource( 2 )
+text = "What do you want to do with the savegame?"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Default" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 577.0
+margin_top = 427.0
+margin_right = 705.0
+margin_bottom = 454.0
+custom_fonts/font = ExtResource( 1 )
+text = "Make Default"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Load" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 581.0
+margin_top = 458.0
+margin_right = 702.0
+margin_bottom = 485.0
+custom_fonts/font = ExtResource( 1 )
+text = "Load"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Remove" type="Button" parent="Savegames_menu/Slot Options"]
+margin_left = 584.0
+margin_top = 490.0
+margin_right = 704.0
+margin_bottom = 517.0
+custom_fonts/font = ExtResource( 1 )
+text = "Remove"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Back" type="Button" parent="Savegames_menu/Slot Options"]
+anchor_left = 14.425
+anchor_top = 13.925
+anchor_right = 17.725
+anchor_bottom = 14.6
+custom_fonts/font = ExtResource( 1 )
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TweenOut" type="Tween" parent="."]
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="pressed" from="VBoxContainer/Continue" to="." method="_on_Continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/New Game" to="." method="_on_New_Game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Savegames" to="." method="_on_Savegames_pressed"]
+[connection signal="pressed" from="VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]
+[connection signal="confirmed" from="SvgName_Continue" to="." method="_on_SvgName_Continue_confirmed"]
+[connection signal="popup_hide" from="SvgName_Continue" to="." method="_on_SvgName_Continue_popup_hide"]
+[connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="toggled" from="MusicSlider/isMusicOn" to="." method="_on_isMusicOn_toggled"]
+[connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
+[connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
+[connection signal="toggled" from="SfxSlider/Fade Enable/CheckButton" to="." method="_on_Fade_CheckButton_toggled"]
+[connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
+[connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
+[connection signal="popup_hide" from="SvgPopUp" to="." method="_on_SvgPopUp_popup_hide"]
+[connection signal="confirmed" from="SvgErrPopUp" to="." method="_on_SvgErrPopUp_confirmed"]
+[connection signal="pressed" from="NG_menu/Back" to="." method="_on_Back_NG_pressed"]
+[connection signal="pressed" from="NG_menu/Create" to="." method="_on_Create_pressed"]
+[connection signal="text_changed" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_changed"]
+[connection signal="text_entered" from="NG_menu/SavegameInput" to="." method="_on_SavegameInput_text_entered"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot1" to="." method="_on_slot1_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot2" to="." method="_on_slot2_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot3" to="." method="_on_slot3_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot4" to="." method="_on_slot4_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot5" to="." method="_on_slot5_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot6" to="." method="_on_slot6_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot7" to="." method="_on_slot7_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot8" to="." method="_on_slot8_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot9" to="." method="_on_slot9_pressed"]
+[connection signal="pressed" from="Savegames_menu/Savegame_slots/slot10" to="." method="_on_slot10_pressed"]
+[connection signal="pressed" from="Savegames_menu/Back" to="." method="_on_Back_pressed"]
+[connection signal="confirmed" from="Savegames_menu/Remove" to="." method="_on_Remove_confirmed"]
+[connection signal="popup_hide" from="Savegames_menu/Remove" to="." method="_on_Remove_popup_hide"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Default" to="." method="_on_Default_pressed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Load" to="." method="_on_Load_pressed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]
+[connection signal="pressed" from="Savegames_menu/Slot Options/Back" to="." method="_on_Back_Slot_pressed"]
+[connection signal="tween_completed" from="TweenOut" to="." method="_on_TweenOut_tween_completed"]
