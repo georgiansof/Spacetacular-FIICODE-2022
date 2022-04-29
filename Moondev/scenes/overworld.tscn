@@ -11,8 +11,8 @@ script = ExtResource( 3 )
 anchor_mode = 0
 current = true
 
+[node name="player" parent="Camera" instance=ExtResource( 1 )]
+position = Vector2( 97, 399 )
+
 [node name="Pause Screen" parent="." instance=ExtResource( 2 )]
 pause_mode = 2
-
-[node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 97, 399 )

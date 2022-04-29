@@ -11,6 +11,7 @@ var rotation_speed:=2
 var acceleration:=0.05
 var fastacceleration:= 0.2
 var maxspeed:=5
+var maxspeed_y:=1
 
 var brakespeed:=0.1
 var fastbrakespeed:=0.8
@@ -81,6 +82,8 @@ func move(speed):
 	var angle:float
 	angle = self.rotation
 	#angle = angle*PI/180
+	if (sin(angle)*speed>maxspeed_y):
+		speed=maxspeed_y/sin(angle) 
 	self.position.x+=speed*cos(angle)
 	self.position.y+=sin(angle)*speed
 
@@ -107,14 +110,14 @@ func _physics_process(delta):
 			else:
 				speed=maxspeed
 		if Input.is_action_pressed("action_brake"):
-			if speed > 0:
+			if speed > -0.5:
 				speed-=brakespeed
 		if Input.is_action_pressed("action_fastbrake"):
 			speed-=fastbrakespeed
-			if (speed<0): speed=0
+			if (speed<-0.5): speed=-0.5
 		move(speed)
-		if speed - passivebrake > 0.5:
+		if speed - passivebrake > 0:
 			speed-=passivebrake
 		else:
-			speed = 0.5
+			if (speed>0): speed = 0
 	pass
