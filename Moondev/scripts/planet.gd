@@ -1,0 +1,39 @@
+extends Node2D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = "text"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	globals.on_rocket=false
+	globals.on_planet=true
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+# warning-ignore:unused_argument
+func _process(delta):
+	if $Player.position.x > 900 && Input.is_action_just_pressed("action_restart"):
+		$Player.position.x = 900
+		$Player.position.y = 470
+	pass
+
+# warning-ignore:unused_argument
+func _on_EndTutorialArea_body_entered(body):
+	globals.is_paused_by_other_means = true
+	get_tree().paused = true
+	$tutorial_complete.show()
+	pass 
+
+
+func _on_tutorial_complete_continue_pressed():
+	get_tree().paused = false
+	globals.is_paused_by_other_means = false
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://scenes/world.tscn")
+	var settings = {"NG": false, "Tutorial": false}
+	globals.Save(globals.current_savegame,settings)
+	pass 

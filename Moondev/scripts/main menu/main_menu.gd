@@ -430,8 +430,13 @@ func Load_Game(savegame) -> void:
 		get_tree().change_scene("res://scenes/NG.tscn")
 	else:
 # warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/overworld.tscn")
-		# TODO LOAD GAME
+		if str2var(svg_content).has("Tutorial") && str2var(svg_content)["Tutorial"]==false:
+			get_tree().change_scene("res://scenes/world.tscn")
+		elif str2var(svg_content).has("Tutorial") && str2var(svg_content)["Tutorial"]==true:
+			get_tree().change_scene("res://scenes/planet.tscn")
+		else:
+#warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/overworld.tscn")
 		pass 
 	pass
 

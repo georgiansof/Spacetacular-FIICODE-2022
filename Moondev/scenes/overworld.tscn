@@ -1,8 +1,24 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Esc_UI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/overworld.gd" type="Script" id=3]
+[ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://scenes/png_res/asteroizi/ast2.png" type="Texture" id=5]
+[ext_resource path="res://scenes/try again.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/png_res/tutorial_planet.png" type="Texture" id=7]
+[ext_resource path="res://scenes/png_res/gravitational_field.png" type="Texture" id=8]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 644.5, 7.5 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 29
+font_data = ExtResource( 4 )
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 258.0
+height = 158.0
 
 [node name="root" type="Node2D"]
 script = ExtResource( 3 )
@@ -12,7 +28,133 @@ anchor_mode = 0
 current = true
 
 [node name="player" parent="Camera" instance=ExtResource( 1 )]
-position = Vector2( 97, 399 )
+position = Vector2( 151, 399 )
+collision_layer = 2
+collision_mask = 5
+
+[node name="upper_wall" type="StaticBody2D" parent="Camera"]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera/upper_wall"]
+position = Vector2( 641, -4 )
+shape = SubResource( 2 )
+
+[node name="lower_wall" type="StaticBody2D" parent="Camera"]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera/lower_wall"]
+position = Vector2( 644.5, 723 )
+shape = SubResource( 2 )
+
+[node name="side_wall" type="StaticBody2D" parent="Camera"]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera/side_wall"]
+position = Vector2( 1282, 351.673 )
+rotation = 1.5708
+scale = Vector2( 0.578, 1 )
+shape = SubResource( 2 )
+
+[node name="tryagain" parent="." instance=ExtResource( 6 )]
+pause_mode = 2
 
 [node name="Pause Screen" parent="." instance=ExtResource( 2 )]
 pause_mode = 2
+
+[node name="InstrBoost" type="Label" parent="."]
+margin_left = 447.0
+margin_top = 285.0
+margin_right = 777.0
+margin_bottom = 446.0
+custom_fonts/font = SubResource( 1 )
+text = "Press:
+W to boost
+S to brake
+SPACE to fast brake"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstrPlay" type="Label" parent="."]
+margin_left = 967.0
+margin_top = 279.0
+margin_right = 1351.0
+margin_bottom = 440.0
+custom_fonts/font = SubResource( 1 )
+text = "Don't be left behind!
+Stay in the visible area
+to live"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstrSteer" type="Label" parent="."]
+margin_left = 1542.0
+margin_top = 274.0
+margin_right = 1916.0
+margin_bottom = 435.0
+custom_fonts/font = SubResource( 1 )
+text = "Press:
+A to rotate upwards
+D to rotate downwards"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstrPlanet" type="Label" parent="."]
+margin_left = 2622.0
+margin_top = 279.0
+margin_right = 2996.0
+margin_bottom = 440.0
+custom_fonts/font = SubResource( 1 )
+text = "Entering a planet's
+gravitational field
+will allow you to visit 
+the planet."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="asteroid" type="StaticBody2D" parent="."]
+position = Vector2( 2142, 344 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="collider" type="CollisionPolygon2D" parent="asteroid"]
+polygon = PoolVector2Array( 11, -61.8, 71, -35.8, 71, -34.5, 80, -27.5, 80, -23.5, 81.1, -4.5, 79.5, -4.5, 64.5, 43.5, 63, 43.5, 55, 54.5, 52.7, 54.5, 41.7, 62.5, 36.3, 62.5, 1.1, 67.5, -51, 67.5, -51, 66, -64, 63.1, -64, 61.4, -76, 48.3, -76, 45.8, -82, 27.8, -82, 21.5, -83.1, 2.5, -81.8, 2.5, -78.8, -25.5, -77.2, -25.5, -71.2, -36.5, -69.8, -36.5, -50.8, -55.5, -46.5, -55.5, -39.5, -59.5, -32.4, -59.5, -18, -62.2, -18, -63.5, 11, -63.5 )
+
+[node name="sprite" type="Sprite" parent="asteroid"]
+texture = ExtResource( 5 )
+
+[node name="planet" type="StaticBody2D" parent="."]
+position = Vector2( 3819, 348 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="field" type="Area2D" parent="planet"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="planet/field"]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="planet/field"]
+modulate = Color( 0.286275, 0.262745, 0.262745, 1 )
+show_behind_parent = true
+position = Vector2( 9.63211e-05, -3.76701e-05 )
+scale = Vector2( 3.02222, 2.98889 )
+texture = ExtResource( 8 )
+
+[node name="TutorialPlanet" type="Sprite" parent="planet"]
+position = Vector2( 3, -1 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="planet"]
+visible = false
+position = Vector2( 3, -1 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( 14, -250.4, 15.4, -247, 51, -247, 51, -244.4, 52.4, -241, 118, -241, 118, -238.4, 119.4, -235, 130, -235, 130, -232.7, 137, -224, 149, -224, 149, -221.4, 150.4, -218, 153.8, -218, 157, -214.8, 157, -212, 159.8, -212, 163, -208.8, 163, -206, 165.8, -206, 169, -202.8, 169, -200, 171.8, -200, 175, -196.8, 175, -195, 183.8, -195, 187, -191.8, 187, -183, 191.4, -183, 193.4, -177, 196.8, -177, 200, -173.8, 200, -171, 203.4, -171, 205.4, -166, 208.8, -166, 212, -162.8, 212, -154, 216, -154, 216, -151.4, 217.4, -148, 220.8, -148, 224, -144.8, 224, -137, 227.4, -137, 229.4, -131, 232.8, -131, 236, -127.8, 236, -119, 239.8, -119, 243, -115.8, 243, -101.4, 249, -99.4, 249, -85, 251.8, -85, 255, -81.8, 255, -61, 257.8, -61, 261, -57.8, 261, -26.4, 267, -24.4, 267, 8, 264.5, 8, 261, 9.39999, 261, 59.4, 255, 61.4, 255, 84, 252.5, 84, 249, 85.4, 249, 100.4, 243, 102.4, 243, 113, 240.5, 113, 237, 114.4, 237, 124, 234.5, 124, 231, 125.4, 231, 135, 228.5, 135, 225, 137.1, 225, 147, 222.5, 147, 219, 148.4, 219, 151.8, 215.8, 155, 212, 155, 212, 158.4, 207, 160.4, 207, 163.2, 205.6, 170, 203.5, 170, 200, 171.4, 200, 174.8, 196.8, 178, 194, 178, 194, 180.8, 190.8, 184, 188, 184, 188, 186.8, 184.8, 190, 181.2, 190, 178.2, 196, 176, 196, 176, 197.8, 172.8, 201, 170, 201, 170, 203.8, 166.8, 207, 157.2, 207, 154.2, 213, 151, 213, 151, 215.8, 147.8, 219, 145, 219, 145, 221.8, 141.8, 225, 132, 225, 124, 236, 113.4, 236, 111.4, 242, 102, 242, 102, 244.8, 98.8, 248, 83.2, 248, 80.2, 254, 58.4, 254, 56.4, 259, 3.39999, 259, 1.39999, 265, -27, 265, -27, 262.5, -28.4, 259, -50.4, 259, -52.4, 253, -75.4, 253, -77.4, 247, -94, 247, -94, 244.5, -95.4, 241, -106, 241, -106, 238.5, -107.3, 236, -125, 236, -125, 233.5, -126.4, 230, -129.8, 230, -133, 226.8, -133, 224, -135.8, 224, -139, 220.8, -139, 218, -149, 218, -149, 215.5, -150.4, 212, -154.4, 212, -156.4, 207, -159.8, 207, -163, 203.8, -163, 201, -174, 201, -174, 198.4, -175.7, 190, -179.6, 190, -194, 181.1, -194, 172, -203.8, 172, -207, 168.8, -207, 161, -211, 161, -211, 158.4, -212.4, 155, -215.8, 155, -219, 151.8, -219, 143.4, -225, 141.4, -225, 132, -228.4, 132, -230.4, 126, -233.8, 126, -237, 122.8, -237, 115, -239.8, 115, -244, 110.8, -244, 97, -247.4, 97, -249.4, 91, -252.8, 91, -256, 87.8, -256, 44.4, -262, 42.4, -262, 16, -264.8, 16, -268, 12.8, -268, -12.4, -262, -14.4, -262, -48, -259.4, -48, -256, -49.4, -256, -71, -253.3, -71, -249, -72.4, -249, -89, -246.4, -89, -243, -90.4, -243, -106, -240.4, -106, -237, -107.4, -237, -118, -234.4, -118, -231, -119.4, -231, -129, -228.4, -129, -225, -130.4, -225, -140, -222.4, -140, -219, -141.4, -219, -152, -216.3, -152, -212, -153.4, -212, -156.8, -208.8, -160, -206, -160, -206, -169, -203.4, -169, -200, -170.4, -200, -173.8, -196.8, -177, -194, -177, -194, -179.8, -190.8, -183, -188, -183, -188, -185.8, -184.8, -189, -182, -189, -182, -191.8, -178.8, -195, -175.4, -195, -173.4, -200, -170, -200, -170, -202.8, -166.8, -206, -163, -206, -163, -209.4, -157, -211.4, -157, -214.8, -153.8, -218, -146, -218, -146, -222, -143.3, -222, -139, -223.4, -139, -226.8, -135.8, -230, -126.4, -230, -124.4, -236, -114.4, -236, -112.4, -241, -103, -241, -103, -243.8, -99.8, -247, -83.4, -247, -82, -250.4, -82, -253, 14, -253 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="unpaused" from="tryagain" to="." method="_on_tryagain_unpaused"]
+[connection signal="body_entered" from="planet/field" to="." method="_on_field_body_entered"]

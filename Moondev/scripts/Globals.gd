@@ -5,6 +5,7 @@ extends Node
 var player_state:="Stand_Right"
 var player_facing:="right"
 var on_rocket:=false
+var on_planet:=false
 
 #
 
@@ -22,6 +23,7 @@ var music_toggle := true
 var sfx_toggle := true
 var default_savegame:= "#"
 var fadecheck := true
+var is_paused_by_other_means := false
 
 func UpdateFile() -> void:
 	var strng = str(globals.music_volume) + "," + str(globals.sfx_volume) + \

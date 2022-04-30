@@ -1,21 +1,30 @@
 extends KinematicBody2D
 
 onready var ANIM = $AnimationPlayer
+export (PackedScene) var Bullet0
+export (PackedScene) var Bullet1
+export (PackedScene) var Bullet2
 
 var pause := false
 var rocket_states = ["on_rocket","rocket_boosting_loop","rocket_start_boosting"]
 # viteze
-var speed:=0.5
-var rotation_speed:=2
+var speed=0.5
+export (int) var rotation_speed=3
 
-var acceleration:=0.05
-var fastacceleration:= 0.2
-var maxspeed:=5
-var maxspeed_y:=1
+export (int) var acceleration=25
+export (int) var fastacceleration= 50
+export (int) var maxspeed=300
+export (int) var maxspeed_y=200
 
-var brakespeed:=0.1
-var fastbrakespeed:=0.8
-var passivebrake:=0.01
+export (int) var brakespeed=25
+export (int) var fastbrakespeed=50
+export (int) var passivebrake=10
+
+export (int) var run_speed = 100
+export (int) var jump_speed = -400
+export (int) var gravity = 1200
+var velocity = Vector2()
+var jumping = false
 #
 
 func _ready():
@@ -32,6 +41,8 @@ func Animate() -> void:
 		var IsRightKeyPressed := Input.is_action_pressed("action_right")
 		var IsLeftKeyPressed := Input.is_action_pressed("action_left")
 		var IsUpKeyPressed := Input.is_action_pressed("action_up")
+		var IsSpacePressed := Input.is_action_pressed("action_shoot")
+		var IsSpaceJustPressed := Input.is_action_just_pressed("action_shoot")
 		
 		if IsRightKeyPressed && IsLeftKeyPressed:
 			return
@@ -41,13 +52,30 @@ func Animate() -> void:
 		elif IsLeftKeyPressed:
 			globals.player_facing = "left"
 			globals.player_state = "Walk_Left"
-		elif IsUpKeyPressed:
+		elif !is_on_floor():
 			if globals.player_facing == "right":
-				globals.player_state = "Walk_Right"
+				globals.player_state = "Fall_Right"
 			elif globals.player_facing == "left":
-				globals.player_state = "Walk_Left"
+				globals.player_state = "Fall_Left"
+				
+		if globals.player_facing == "right":
+			if IsSpaceJustPressed:
+				ANIM.play("Start_Shooting_Right")
+				pause = true
+				yield(ANIM,"animation_finished")
+				pause = false
+			if IsSpacePressed && !pause:
+				globals.player_state = "Shoot_Right"
+		else:
+			if IsSpaceJustPressed:
+				ANIM.play("Start_Shooting_Left")
+				pause = true
+				yield(ANIM,"animation_finished")
+				pause = false
+			if IsSpacePressed && !pause:
+				globals.player_state = "Shoot_Left"
 
-		if ANIM.get_current_animation() != globals.player_state || IsUpKeyPressed:
+		if !pause && (ANIM.get_current_animation() != globals.player_state || IsUpKeyPressed):
 			ANIM.play(globals.player_state)
 	else:
 		globals.player_state = "on_rocket"
@@ -71,8 +99,6 @@ func Animate() -> void:
 
 # warning-ignore:unused_argument
 func _process(delta):
-	if Input.is_action_just_pressed("rocket"):
-		globals.on_rocket = !globals.on_rocket
 	Animate()
 	pass
 	
@@ -83,9 +109,12 @@ func move(speed):
 	angle = self.rotation
 	#angle = angle*PI/180
 	if (sin(angle)*speed>maxspeed_y):
-		speed=maxspeed_y/sin(angle) 
-	self.position.x+=speed*cos(angle)
-	self.position.y+=sin(angle)*speed
+		speed=maxspeed_y
+	#self.position.x+=speed*cos(angle)
+	#self.position.y+=sin(angle)*speed
+	
+# warning-ignore:return_value_discarded
+	self.move_and_slide(speed*(Vector2(cos(angle),sin(angle)).normalized()),Vector2(0,0),false,4,0.785398,false)
 
 func find(x: String, a) -> bool:
 	for y in a:
@@ -93,15 +122,41 @@ func find(x: String, a) -> bool:
 			return true
 	return false
 
+func get_input():
+	velocity.x = 0
+	var right = Input.is_action_pressed('action_right')
+	var left = Input.is_action_pressed('action_left')
+	var jump = Input.is_action_just_pressed("action_up")
+
+	if jump and is_on_floor():
+		jumping = true
+		velocity.y = jump_speed
+	if right:
+		velocity.x += run_speed
+	if left:
+		velocity.x -= run_speed
+
+func shoot() -> void:
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var x = int(abs(rng.randi()))%3
+	var b
+	if x%3==0:
+		b = Bullet0.instance()
+	elif x%3==1:
+		b = Bullet1.instance()
+	elif x%3==2:
+		b = Bullet2.instance()
+	owner.add_child(b)
+	b.transform = $Muzzle.global_transform
+
 # warning-ignore:unused_argument
 func _physics_process(delta):
 	if find(globals.player_state, rocket_states):
 		if Input.is_action_pressed("action_left"): 
 			self.rotation_degrees-=rotation_speed
-			move(speed)
 		if Input.is_action_pressed("action_right"):
 			self.rotation_degrees+=rotation_speed
-			move(speed)
 		if Input.is_action_pressed("action_boost"):
 			if speed > 0 && speed < 0.4:
 				speed += fastacceleration
@@ -110,14 +165,20 @@ func _physics_process(delta):
 			else:
 				speed=maxspeed
 		if Input.is_action_pressed("action_brake"):
-			if speed > -0.5:
+			if speed > -1:
 				speed-=brakespeed
 		if Input.is_action_pressed("action_fastbrake"):
 			speed-=fastbrakespeed
-			if (speed<-0.5): speed=-0.5
+			if (speed<-1): speed=-75
 		move(speed)
 		if speed - passivebrake > 0:
 			speed-=passivebrake
 		else:
 			if (speed>0): speed = 0
+	else: # not on rocket
+		get_input()
+		velocity.y += gravity * delta
+		if jumping && is_on_floor():
+			jumping = false
+		velocity = move_and_slide(velocity, Vector2(0, -1))
 	pass

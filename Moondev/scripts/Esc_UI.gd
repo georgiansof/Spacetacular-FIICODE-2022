@@ -10,7 +10,6 @@ var quit_confirm:=false
 var mainmenu_confirm:=false
 
 func _ready():
-	self.is_paused = false
 	$SFX.volume_db = linear2db(globals.sfx_volume/100.0)
 
 func _unhandled_input(event):
@@ -24,7 +23,10 @@ func _unhandled_input(event):
 
 func set_is_paused(value):
 	is_paused = value
-	get_tree().paused = is_paused
+	if is_paused == false && globals.is_paused_by_other_means == true:
+		pass
+	else:
+		get_tree().paused = is_paused
 	$Background.visible = is_paused
 	$CenterContainer.visible = is_paused
 	
