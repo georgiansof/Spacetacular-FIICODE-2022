@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://sfx/rocket_boosting.wav" type="AudioStream" id=2]
@@ -210,6 +210,18 @@ tracks/4/keys = {
 "method": "shoot"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("Muzzle:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -60, -51 ) ]
+}
 
 [sub_resource type="Animation" id=11]
 resource_name = "Shoot_Right"
@@ -279,6 +291,18 @@ tracks/4/keys = {
 "args": [  ],
 "method": "shoot"
 } ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Muzzle:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 60, -51 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -470,7 +494,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -22, -51 ) ]
+"values": [ Vector2( -60, -50 ) ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -534,7 +558,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 25, -51 ) ]
+"values": [ Vector2( 60, -51 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -831,7 +855,30 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 )
 }
 
+[sub_resource type="Animation" id=15]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id=16]
+resource_name = "Shooting"
+length = 0.1
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "rocket_shoot"
+} ]
+}
+
 [node name="Player" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource( 1 )
 Bullet0 = ExtResource( 7 )
 Bullet1 = ExtResource( 8 )
@@ -843,10 +890,9 @@ scale = Vector2( 0.668, 0.668 )
 texture = ExtResource( 5 )
 hframes = 5
 vframes = 10
-frame = 17
+frame = 1
 
 [node name="Rocket" type="Sprite" parent="."]
-visible = false
 position = Vector2( -1.552, 4 )
 scale = Vector2( 0.235, 0.235 )
 texture = ExtResource( 3 )
@@ -862,7 +908,7 @@ frame = 6
 
 [node name="player_shape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -52.169 )
-scale = Vector2( 0.668, 0.668 )
+scale = Vector2( 0.668, 0.563 )
 shape = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -884,7 +930,6 @@ anims/rocket_start_boosting = SubResource( 8 )
 position = Vector2( -1.552, 4 )
 scale = Vector2( 0.235, 0.235 )
 polygon = PoolVector2Array( 117, -86.2, 204, -73.2, 204, -72, 257, -59.1, 257, -57.9, 294, -44.9, 294, -43.7, 325, -26.7, 325, -25.5, 333, -19.5, 333, -17, 336, -9.5, 333, -9.5, 314, 14.5, 311.7, 14.5, 299.7, 24.5, 297.5, 24.5, 263.5, 43.5, 260.4, 43.5, 220.4, 59.5, 216.1, 59.5, 107.3, 88.5, 101.2, 88.5, 43.1, 94.5, 22, 94.5, -51, 96.5, -51, 95.5, -69, 95.5, -69, 94.3, -178, 80.3, -178, 79, -215, 70.1, -215, 68.8, -239.5, 56.5, -241.8, 56.5, -267, 58.7, -267, 57.4, -281, 56.4, -281, 54.8, -285.5, 52.5, -291.1, 52.5, -309, 51.4, -309, 49.3, -316, 42.3, -316, 38.5, -320, 24.8, -320, 1.9, -313.1, -8.5, -310.5, -8.5, -304.5, -11.5, -295.7, -11.5, -294.4, -11.1, -273.4, -20.5, -269.4, -20.5, -249, -24.2, -195.5, -52.5, -192.4, -52.5, -157.4, -66.5, -153.4, -66.5, -93.2, -77.5, -85.2, -77.5, -15, -86.3, -15, -87.5, 117, -87.5 )
-disabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
@@ -892,4 +937,12 @@ stream = ExtResource( 4 )
 
 [node name="Muzzle" type="Position2D" parent="."]
 visible = false
-position = Vector2( -22, -51 )
+position = Vector2( -60, -50 )
+
+[node name="RocketMuzzle" type="Position2D" parent="."]
+visible = false
+position = Vector2( 97, 0 )
+
+[node name="RocketShoot_animplayer" type="AnimationPlayer" parent="."]
+anims/Idle = SubResource( 15 )
+anims/Shooting = SubResource( 16 )

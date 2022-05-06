@@ -23,7 +23,6 @@ globals="*res://scripts/Globals.gd"
 window/size/width=1280
 window/size/height=720
 window/size/resizable=false
-window/size/fullscreen=true
 window/stretch/mode="2d"
 
 [global]
@@ -80,7 +79,7 @@ action_brake={
 }
 action_fastbrake={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 action_restart={
@@ -99,6 +98,9 @@ action_shoot={
 2d_physics/layer_1="walls"
 2d_physics/layer_2="player"
 2d_physics/layer_3="rocks"
+2d_physics/layer_4="physics_rocks"
+2d_physics/layer_5="bullets"
+2d_physics/layer_6="Interactible"
 
 [physics]
 

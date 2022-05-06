@@ -13,7 +13,7 @@ func _ready():
 	$SFX.volume_db = linear2db(globals.sfx_volume/100.0)
 
 func _unhandled_input(event):
-	if event.is_action_pressed("pause"):
+	if event.is_action_pressed("pause") && globals.allow_pause:
 		self.is_paused = !is_paused
 		if is_paused:
 			$SFX.stream = back_sound
@@ -29,6 +29,8 @@ func set_is_paused(value):
 		get_tree().paused = is_paused
 	$Background.visible = is_paused
 	$CenterContainer.visible = is_paused
+	if is_paused == true:
+		$CenterContainer/VBoxContainer/ResumeButton.grab_focus()
 	
 
 

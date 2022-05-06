@@ -1,11 +1,14 @@
 extends Node
 
+var allow_pause := true
+
 # PLAYER
 
 var player_state:="Stand_Right"
 var player_facing:="right"
 var on_rocket:=false
 var on_planet:=false
+var camera_speed := 350
 
 #
 
@@ -69,6 +72,7 @@ func Init_Options() -> void:
 		
 		if(settings.size()>=6):
 			default_savegame = settings[5]
+			current_savegame = default_savegame # stop debug saving errors
 		else: upd=true
 
 		file.close()
@@ -101,14 +105,14 @@ func list_files_in_directory(path,ext):
 
 #
 
-func Save(savegame:String,settings:Dictionary) -> void:
+func Save(settings:Dictionary,savegame:String = globals.current_savegame) -> void:
 	var savefile = File.new()
 	savefile.open(savefile_dir+savegame, File.WRITE)
 	savefile.store_string(var2str(settings))
 	savefile.close()
 	pass
 	
-func Load(savegame:String) -> Dictionary:
+func Load(savegame:String = globals.current_savegame) -> Dictionary:
 	var savefile = File.new()
 	savefile.open(savefile_dir+savegame, File.READ)
 	var read_dictionary = str2var(savefile.get_as_text())

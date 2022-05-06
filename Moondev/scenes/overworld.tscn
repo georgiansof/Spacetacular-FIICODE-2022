@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Esc_UI.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://scenes/try again.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/png_res/tutorial_planet.png" type="Texture" id=7]
 [ext_resource path="res://scenes/png_res/gravitational_field.png" type="Texture" id=8]
+[ext_resource path="res://scenes/objectives.tscn" type="PackedScene" id=9]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 644.5, 7.5 )
@@ -20,7 +21,7 @@ font_data = ExtResource( 4 )
 radius = 258.0
 height = 158.0
 
-[node name="root" type="Node2D"]
+[node name="overworld" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -55,8 +56,11 @@ rotation = 1.5708
 scale = Vector2( 0.578, 1 )
 shape = SubResource( 2 )
 
+[node name="Objectives" parent="." instance=ExtResource( 9 )]
+
 [node name="tryagain" parent="." instance=ExtResource( 6 )]
 pause_mode = 2
+cameraspeed = 150
 
 [node name="Pause Screen" parent="." instance=ExtResource( 2 )]
 pause_mode = 2
@@ -70,7 +74,7 @@ custom_fonts/font = SubResource( 1 )
 text = "Press:
 W to boost
 S to brake
-SPACE to fast brake"
+CTRL to fast brake"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,5 +160,4 @@ polygon = PoolVector2Array( 14, -250.4, 15.4, -247, 51, -247, 51, -244.4, 52.4, 
 
 [node name="Tween" type="Tween" parent="."]
 
-[connection signal="unpaused" from="tryagain" to="." method="_on_tryagain_unpaused"]
 [connection signal="body_entered" from="planet/field" to="." method="_on_field_body_entered"]

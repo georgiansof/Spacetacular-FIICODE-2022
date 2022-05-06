@@ -1,20 +1,27 @@
 extends Node2D
 
+var checkpoint9k_passed := false
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-var cameraspeed = 350 # pixels / second
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
+	var save_settings = globals.Load()
+	if save_settings.has("checkpoint"):
+		if save_settings["checkpoint"]=="9K":
+			checkpoint9k_passed = true
+			$tryagain.camera_starting_x = 8849
+			$Camera.position.x = 8849
 	globals.on_planet = false
 	globals.on_rocket = true
+	$Objectives.new_objective("On my way to nowhere","Survive the meteor storm")
 	pass 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	$Camera.position.x += cameraspeed * delta
+func CP9K_Save() -> void:
+	var settings = globals.Load()
+	settings["checkpoint"]="9K"
+	globals.Save(settings)
 	pass
+
+func _process(_delta):
+	if checkpoint9k_passed == false:
+		if $Camera/player.global_position.x > 9000:
+			checkpoint9k_passed = true
+			CP9K_Save()

@@ -9,6 +9,7 @@ size = 45
 font_data = ExtResource( 1 )
 
 [node name="root" type="CanvasLayer"]
+pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="Background" type="ColorRect" parent="."]
@@ -55,6 +56,7 @@ margin_bottom = 133.0
 rect_min_size = Vector2( 0, 25 )
 
 [node name="ResumeButton" type="Button" parent="CenterContainer/VBoxContainer"]
+pause_mode = 2
 margin_top = 134.0
 margin_right = 185.0
 margin_bottom = 161.0

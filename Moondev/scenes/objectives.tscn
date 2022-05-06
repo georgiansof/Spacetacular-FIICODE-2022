@@ -1,0 +1,123 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://fonts/Times New Roman/times new roman bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/Times New Roman/times new roman bold italic.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/objectives.gd" type="Script" id=3]
+[ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 18
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 14
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 27
+font_data = ExtResource( 4 )
+
+[node name="Objectives" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color( 0, 0, 0, 0.0745098 )
+show_behind_parent = true
+margin_left = 5.0
+margin_top = 6.0
+margin_right = 355.0
+margin_bottom = 165.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission name" type="Label" parent="."]
+margin_left = 88.0
+margin_top = 21.0
+margin_right = 278.0
+margin_bottom = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = SubResource( 1 )
+text = "CURRENT TASK"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission description" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 50.0
+margin_right = 354.0
+margin_bottom = 89.0
+custom_fonts/font = SubResource( 2 )
+text = "CURRENT TASK OBJECTIVE"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="complete_bg" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 6.0
+margin_right = -925.0
+margin_bottom = -555.0
+color = Color( 0.141176, 0.12549, 0.12549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mission Complete" type="Label" parent="complete_bg"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -171.5
+margin_top = -34.5
+margin_right = 171.5
+margin_bottom = 34.5
+custom_fonts/font = SubResource( 3 )
+text = "Objective achieved !"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="new_bg" type="ColorRect" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -925.0
+margin_bottom = -556.0
+color = Color( 0.141176, 0.12549, 0.12549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="New mission" type="Label" parent="new_bg"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -131.5
+margin_top = -34.5
+margin_right = 131.5
+margin_bottom = 34.5
+custom_fonts/font = SubResource( 3 )
+text = "New objective !"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Animator" type="Tween" parent="."]

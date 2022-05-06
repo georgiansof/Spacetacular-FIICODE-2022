@@ -38,11 +38,11 @@ func Load_Backstory() -> void:
 func _on_VideoPlayer_finished():
 	if backstory_loaded==true:
 		var settings:= {"NG" : false}
-		globals.Save(globals.current_savegame,settings)
+		globals.Save(settings)
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/overworld.tscn")
 	else:
 		var settings:= {"NG" : true}
-		globals.Save(globals.current_savegame,settings)
+		globals.Save(settings)
 		Load_Backstory()
 	pass 

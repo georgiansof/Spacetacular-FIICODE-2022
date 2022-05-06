@@ -9,6 +9,7 @@ var pause := false
 var rocket_states = ["on_rocket","rocket_boosting_loop","rocket_start_boosting"]
 # viteze
 var speed=0.5
+export (int) var mass = 1
 export (int) var rotation_speed=3
 
 export (int) var acceleration=25
@@ -137,21 +138,47 @@ func get_input():
 		velocity.x -= run_speed
 
 func shoot() -> void:
-	var rng = RandomNumberGenerator.new()
-	rng.randomize()
-	var x = int(abs(rng.randi()))%3
+#	var rng = RandomNumberGenerator.new()
+#	rng.randomize()
+#	var x = int(abs(rng.randi()))%3
 	var b
-	if x%3==0:
-		b = Bullet0.instance()
-	elif x%3==1:
-		b = Bullet1.instance()
-	elif x%3==2:
-		b = Bullet2.instance()
+#	if x%3==0:
+#		b = Bullet0.instance()
+#	elif x%3==1:
+#		b = Bullet1.instance()
+#	elif x%3==2:
+	b = Bullet2.instance()
 	owner.add_child(b)
 	b.transform = $Muzzle.global_transform
+	b.fire()
+	
+func rocket_shoot() -> void:
+#	var rng = RandomNumberGenerator.new()
+#	rng.randomize()
+#	var x = int(abs(rng.randi()))%3
+	var b
+#	if x%3==0:
+#		b = Bullet0.instance()
+#	elif x%3==1:
+#		b = Bullet1.instance()
+#	elif x%3==2:
+	b = Bullet0.instance()
+	owner.add_child(b)
+	b.transform = $RocketMuzzle.global_transform
+	var direc = b.speed * Vector2(cos(self.rotation),sin(self.rotation)).normalized()
+	b.apply_central_impulse(globals.camera_speed * Vector2.RIGHT) # RELATIV LA CAMERA
+	b.apply_central_impulse(direc)
+	#b.rocket_fire(self)
+
+func rocketshoot_eligible() -> bool:
+	var ineligible_scenes = ["NG", "overworld", "planet"]
+	if find(get_tree().current_scene.name,ineligible_scenes) || (get_tree().current_scene.name == "world" && self.global_position.x < 9000):
+		return false
+	return true
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
+			
 	if find(globals.player_state, rocket_states):
 		if Input.is_action_pressed("action_left"): 
 			self.rotation_degrees-=rotation_speed
@@ -175,6 +202,10 @@ func _physics_process(delta):
 			speed-=passivebrake
 		else:
 			if (speed>0): speed = 0
+		if rocketshoot_eligible() && Input.is_action_pressed("action_shoot"):
+			$RocketShoot_animplayer.play("Shooting")
+		else:
+			$RocketShoot_animplayer.play("Idle")
 	else: # not on rocket
 		get_input()
 		velocity.y += gravity * delta

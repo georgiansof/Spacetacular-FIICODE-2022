@@ -10,6 +10,7 @@ extends Node2D
 func _ready():
 	globals.on_rocket=false
 	globals.on_planet=true
+	$Objectives.new_objective("On a lone planet","Learn to make use of your abilities")
 	pass # Replace with function body.
 
 
@@ -35,5 +36,5 @@ func _on_tutorial_complete_continue_pressed():
 # warning-ignore:return_value_discarded
 	get_tree().change_scene("res://scenes/world.tscn")
 	var settings = {"NG": false, "Tutorial": false}
-	globals.Save(globals.current_savegame,settings)
+	globals.Save(settings)
 	pass 
