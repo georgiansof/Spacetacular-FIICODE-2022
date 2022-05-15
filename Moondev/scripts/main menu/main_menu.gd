@@ -31,7 +31,7 @@ export var transition_duration = 1.00
 export var transition_type = 1
 
 func _ready():
-	fade_in($Music)
+	#fade_in($Music)
 	$"SfxSlider/Fade Enable/CheckButton".pressed = globals.fadecheck
 	if globals.fadecheck == true:
 		mod.a = 0
@@ -222,7 +222,7 @@ func _on_MusicSlider_value_changed(value):
 func _on_isMusicOn_toggled(button_pressed):
 	var stream = get_node("Music")
 	if get_node("MusicSlider/isMusicOn").is_pressed():
-		stream.volume_db = - linear2db(get_node("MusicSlider").value/100.0)
+		stream.volume_db = linear2db(get_node("MusicSlider").value/100.0)
 		globals.music_toggle = true
 		globals.UpdateFile()
 	else: 
@@ -457,13 +457,12 @@ func Load_Game(savegame) -> void:
 
 func fade_out(stream_player):
 	# tween music volume down to 0
-	tween_out.interpolate_property(stream_player, "volume_db", stream_player.volume_db, -80, transition_duration, transition_type, Tween.EASE_IN, 0)
+	tween_out.interpolate_property(stream_player, "volume_db", - linear2db(globals.music_volume/100.0), -80, transition_duration, transition_type, Tween.EASE_IN, 0)
 	tween_out.start()
 
-func fade_in(stream_player):
-	# tween music volume down to 0
-	tween.interpolate_property(stream_player, "volume_db", -80, stream_player.volume_db, transition_duration, transition_type, Tween.EASE_IN, 0)
-	tween.start()
+#func fade_in(stream_player):
+#	tween.interpolate_property(stream_player, "volume_db", -80, - linear2db(globals.music_volume/100.0), transition_duration, transition_type, Tween.EASE_IN, 0)
+#	tween.start()
 
 # warning-ignore:unused_argument
 func _on_TweenOut_tween_completed(object, key):

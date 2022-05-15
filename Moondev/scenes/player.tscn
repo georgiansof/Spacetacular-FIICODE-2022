@@ -891,7 +891,7 @@ scale = Vector2( 0.668, 0.668 )
 texture = ExtResource( 5 )
 hframes = 5
 vframes = 10
-frame = 12
+frame = 38
 
 [node name="Rocket" type="Sprite" parent="."]
 visible = false
