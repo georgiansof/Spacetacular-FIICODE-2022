@@ -29,16 +29,17 @@ size = 20
 font_data = ExtResource( 3 )
 
 [node name="Dialog" type="CanvasLayer"]
+pause_mode = 2
 script = ExtResource( 7 )
 
 [node name="Background" type="ColorRect" parent="."]
 visible = false
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -431.0
-margin_top = 39.0
-margin_right = 434.0
-margin_bottom = 172.0
+margin_left = -252.0
+margin_top = 31.0
+margin_right = 613.0
+margin_bottom = 164.0
 color = Color( 0.141176, 0.12549, 0.12549, 0.996078 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -56,6 +57,7 @@ custom_fonts/bold_italics_font = SubResource( 2 )
 custom_fonts/italics_font = SubResource( 3 )
 custom_fonts/bold_font = SubResource( 4 )
 custom_fonts/normal_font = SubResource( 5 )
+bbcode_enabled = true
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false

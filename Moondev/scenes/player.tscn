@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://sfx/rocket_boosting.wav" type="AudioStream" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://scenes/bullet0.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/bullet1.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/bullet2.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/png_res/player/interaction.png" type="Texture" id=10]
 
 [sub_resource type="CapsuleShape2D" id=5]
 radius = 48.0
@@ -890,9 +891,10 @@ scale = Vector2( 0.668, 0.668 )
 texture = ExtResource( 5 )
 hframes = 5
 vframes = 10
-frame = 1
+frame = 12
 
 [node name="Rocket" type="Sprite" parent="."]
+visible = false
 position = Vector2( -1.552, 4 )
 scale = Vector2( 0.235, 0.235 )
 texture = ExtResource( 3 )
@@ -908,7 +910,7 @@ frame = 6
 
 [node name="player_shape" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -52.169 )
-scale = Vector2( 0.668, 0.563 )
+scale = Vector2( 0.668, 0.668 )
 shape = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -930,6 +932,7 @@ anims/rocket_start_boosting = SubResource( 8 )
 position = Vector2( -1.552, 4 )
 scale = Vector2( 0.235, 0.235 )
 polygon = PoolVector2Array( 117, -86.2, 204, -73.2, 204, -72, 257, -59.1, 257, -57.9, 294, -44.9, 294, -43.7, 325, -26.7, 325, -25.5, 333, -19.5, 333, -17, 336, -9.5, 333, -9.5, 314, 14.5, 311.7, 14.5, 299.7, 24.5, 297.5, 24.5, 263.5, 43.5, 260.4, 43.5, 220.4, 59.5, 216.1, 59.5, 107.3, 88.5, 101.2, 88.5, 43.1, 94.5, 22, 94.5, -51, 96.5, -51, 95.5, -69, 95.5, -69, 94.3, -178, 80.3, -178, 79, -215, 70.1, -215, 68.8, -239.5, 56.5, -241.8, 56.5, -267, 58.7, -267, 57.4, -281, 56.4, -281, 54.8, -285.5, 52.5, -291.1, 52.5, -309, 51.4, -309, 49.3, -316, 42.3, -316, 38.5, -320, 24.8, -320, 1.9, -313.1, -8.5, -310.5, -8.5, -304.5, -11.5, -295.7, -11.5, -294.4, -11.1, -273.4, -20.5, -269.4, -20.5, -249, -24.2, -195.5, -52.5, -192.4, -52.5, -157.4, -66.5, -153.4, -66.5, -93.2, -77.5, -85.2, -77.5, -15, -86.3, -15, -87.5, 117, -87.5 )
+disabled = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
@@ -946,3 +949,9 @@ position = Vector2( 97, 0 )
 [node name="RocketShoot_animplayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 15 )
 anims/Shooting = SubResource( 16 )
+
+[node name="interaction" type="Sprite" parent="."]
+visible = false
+position = Vector2( 4.36184, -111.338 )
+scale = Vector2( 0.0497879, 0.0497879 )
+texture = ExtResource( 10 )

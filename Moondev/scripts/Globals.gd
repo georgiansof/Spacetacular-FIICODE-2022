@@ -6,6 +6,7 @@ var allow_pause := true
 
 var player_state:="Stand_Right"
 var player_facing:="right"
+var player_level = {"anger":0 , "empathy":0 , "pragmatism":0}
 var on_rocket:=false
 var on_planet:=false
 var camera_speed := 350
@@ -118,3 +119,5 @@ func Load(savegame:String = globals.current_savegame) -> Dictionary:
 	var read_dictionary = str2var(savefile.get_as_text())
 	savefile.close()
 	return read_dictionary
+
+var option

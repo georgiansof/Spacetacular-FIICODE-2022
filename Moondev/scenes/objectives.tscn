@@ -18,6 +18,7 @@ size = 27
 font_data = ExtResource( 4 )
 
 [node name="Objectives" type="CanvasLayer"]
+pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="ColorRect" type="ColorRect" parent="."]

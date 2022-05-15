@@ -17,6 +17,8 @@ func _ready():
 	savefile.close()
 	tween.interpolate_property(skiplabel, "modulate", Color(1,1,1,0), Color(1,1,1,1), 2.0, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
+	tween.interpolate_property(skiplabel, "modulate", Color(1,1,1,1), Color(1,1,1,0), 7.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	tween.start()
 	if text!="":
 		_on_VideoPlayer_finished()
 	

@@ -25,12 +25,12 @@ height = 158.0
 script = ExtResource( 3 )
 
 [node name="Camera" type="Camera2D" parent="."]
+position = Vector2( -1073, 0 )
 anchor_mode = 0
 current = true
 
 [node name="player" parent="Camera" instance=ExtResource( 1 )]
 position = Vector2( 151, 399 )
-collision_layer = 2
 collision_mask = 5
 
 [node name="upper_wall" type="StaticBody2D" parent="Camera"]
@@ -60,10 +60,8 @@ shape = SubResource( 2 )
 
 [node name="tryagain" parent="." instance=ExtResource( 6 )]
 pause_mode = 2
-cameraspeed = 150
 
 [node name="Pause Screen" parent="." instance=ExtResource( 2 )]
-pause_mode = 2
 
 [node name="InstrBoost" type="Label" parent="."]
 margin_left = 447.0

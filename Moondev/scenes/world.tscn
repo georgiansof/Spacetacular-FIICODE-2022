@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://scenes/png_res/tutorial_planet.png" type="Texture" id=1]
 [ext_resource path="res://scenes/Esc_UI.tscn" type="PackedScene" id=2]
@@ -28,7 +28,11 @@
 [ext_resource path="res://icon.png" type="Texture" id=26]
 [ext_resource path="res://scenes/pushable_rock2.tscn" type="PackedScene" id=27]
 [ext_resource path="res://scenes/destructible_rock2.tscn" type="PackedScene" id=28]
-[ext_resource path="res://scenes/pushable_rock3.tscn" type="PackedScene" id=29]
+[ext_resource path="res://scenes/destructible_rock3.tscn" type="PackedScene" id=29]
+[ext_resource path="res://scenes/pushable_rock1.tscn" type="PackedScene" id=30]
+[ext_resource path="res://scenes/destructible_rock1.tscn" type="PackedScene" id=31]
+[ext_resource path="res://scenes/png_res/gravitational_field.png" type="Texture" id=32]
+[ext_resource path="res://scenes/png_res/purple_planet.png" type="Texture" id=33]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 838.25, 7.5 )
@@ -36,6 +40,10 @@ extents = Vector2( 838.25, 7.5 )
 [sub_resource type="DynamicFont" id=2]
 size = 32
 font_data = ExtResource( 25 )
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 258.0
+height = 158.0
 
 [node name="world" type="Node2D"]
 script = ExtResource( 4 )
@@ -1757,7 +1765,7 @@ polygon = PoolVector2Array( 14, -25.2, 14, -23.5, 24, -15.5, 24, -4.9, 8, 17.5, 
 
 [node name="RocksBig" type="Sprite" parent="."]
 position = Vector2( 9000.23, 320 )
-scale = Vector2( 0.18964, 1 )
+scale = Vector2( 0.02964, 1 )
 texture = ExtResource( 26 )
 
 [node name="destructible_rock2" parent="." instance=ExtResource( 28 )]
@@ -1780,8 +1788,211 @@ position = Vector2( 6285, -18.9998 )
 rotation = 0.653817
 polygon = PoolVector2Array( 23.5, -219.3, 64.5, -201.3, 64.5, -200.2, 74.5, -195.2, 74.5, -193.9, 85.5, -183.9, 85.5, -181.7, 160.5, -95.7, 160.5, -93.7, 169.5, -83.8, 169.5, -81.5, 191.6, -44, 192.3, -44, 223.5, -12.8, 223.5, -10.7, 230.5, -1.7, 230.5, 0.699997, 236.5, 20.7, 236.5, 37.2, 231.1, 60, 229.7, 60, 221.7, 76, 220.3, 76, 188.3, 109, 186.2, 109, 152.2, 137, 150.1, 137, 98.1, 170, 96.1, 170, 54, 193, 50.9, 193, -8.2, 214, -56.5, 214, -56.5, 212.7, -86.5, 206.6, -86.5, 205.4, -116.5, 194.4, -116.5, 193, -133.5, 181, -133.5, 179.8, -160.5, 153.9, -160.5, 151.9, -195.5, 114.8, -195.5, 112.7, -213.5, 88.7, -213.5, 86.5, -227.5, 60.5, -227.5, 56.4, -234.5, 38.4, -234.5, 22, -233, 22, -231.1, 14, -229.5, 14, -220.5, 1, -219.3, 1, -174.5, -43.8, -174.5, -45.7, -138.5, -91.7, -138.5, -93.5, -110.7, -143, -109.4, -143, -82.4, -174, -80.2, -174, -55.2, -193, -53, -193, -28, -207, -25, -207, -11, -214, -7.60001, -214, 11.5, -219.5, 23.5, -220 )
 
+[node name="non_destructible2" type="StaticBody2D" parent="."]
+position = Vector2( 6878, 96 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="Ast1" type="Sprite" parent="non_destructible2"]
+position = Vector2( 6285, -18.9998 )
+rotation = 0.653817
+texture = ExtResource( 13 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="non_destructible2"]
+position = Vector2( 6285, -18.9998 )
+rotation = 0.653817
+polygon = PoolVector2Array( 23.5, -219.3, 64.5, -201.3, 64.5, -200.2, 74.5, -195.2, 74.5, -193.9, 85.5, -183.9, 85.5, -181.7, 160.5, -95.7, 160.5, -93.7, 169.5, -83.8, 169.5, -81.5, 191.6, -44, 192.3, -44, 223.5, -12.8, 223.5, -10.7, 230.5, -1.7, 230.5, 0.699997, 236.5, 20.7, 236.5, 37.2, 231.1, 60, 229.7, 60, 221.7, 76, 220.3, 76, 188.3, 109, 186.2, 109, 152.2, 137, 150.1, 137, 98.1, 170, 96.1, 170, 54, 193, 50.9, 193, -8.2, 214, -56.5, 214, -56.5, 212.7, -86.5, 206.6, -86.5, 205.4, -116.5, 194.4, -116.5, 193, -133.5, 181, -133.5, 179.8, -160.5, 153.9, -160.5, 151.9, -195.5, 114.8, -195.5, 112.7, -213.5, 88.7, -213.5, 86.5, -227.5, 60.5, -227.5, 56.4, -234.5, 38.4, -234.5, 22, -233, 22, -231.1, 14, -229.5, 14, -220.5, 1, -219.3, 1, -174.5, -43.8, -174.5, -45.7, -138.5, -91.7, -138.5, -93.5, -110.7, -143, -109.4, -143, -82.4, -174, -80.2, -174, -55.2, -193, -53, -193, -28, -207, -25, -207, -11, -214, -7.60001, -214, 11.5, -219.5, 23.5, -220 )
+
+[node name="non_destructible3" type="StaticBody2D" parent="."]
+position = Vector2( 6878, 96 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="Ast1" type="Sprite" parent="non_destructible3"]
+position = Vector2( 6285, -18.9998 )
+rotation = 0.653817
+texture = ExtResource( 13 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="non_destructible3"]
+position = Vector2( 6293, 597 )
+rotation = 0.653817
+polygon = PoolVector2Array( 23.5, -219.3, 64.5, -201.3, 64.5, -200.2, 74.5, -195.2, 74.5, -193.9, 85.5, -183.9, 85.5, -181.7, 160.5, -95.7, 160.5, -93.7, 169.5, -83.8, 169.5, -81.5, 191.6, -44, 192.3, -44, 223.5, -12.8, 223.5, -10.7, 230.5, -1.7, 230.5, 0.699997, 236.5, 20.7, 236.5, 37.2, 231.1, 60, 229.7, 60, 221.7, 76, 220.3, 76, 188.3, 109, 186.2, 109, 152.2, 137, 150.1, 137, 98.1, 170, 96.1, 170, 54, 193, 50.9, 193, -8.2, 214, -56.5, 214, -56.5, 212.7, -86.5, 206.6, -86.5, 205.4, -116.5, 194.4, -116.5, 193, -133.5, 181, -133.5, 179.8, -160.5, 153.9, -160.5, 151.9, -195.5, 114.8, -195.5, 112.7, -213.5, 88.7, -213.5, 86.5, -227.5, 60.5, -227.5, 56.4, -234.5, 38.4, -234.5, 22, -233, 22, -231.1, 14, -229.5, 14, -220.5, 1, -219.3, 1, -174.5, -43.8, -174.5, -45.7, -138.5, -91.7, -138.5, -93.5, -110.7, -143, -109.4, -143, -82.4, -174, -80.2, -174, -55.2, -193, -53, -193, -28, -207, -25, -207, -11, -214, -7.60001, -214, 11.5, -219.5, 23.5, -220 )
+
 [node name="pushable_rock2" parent="." instance=ExtResource( 27 )]
 position = Vector2( 10433, 78 )
 
-[node name="pushable_rocks3" parent="." instance=ExtResource( 29 )]
-position = Vector2( 11388, 243 )
+[node name="pushable_rock3" parent="." instance=ExtResource( 27 )]
+position = Vector2( 12208, 283 )
+
+[node name="pushable_rock1" parent="." instance=ExtResource( 30 )]
+position = Vector2( 12010, 186 )
+
+[node name="pushable_rock4" parent="." instance=ExtResource( 27 )]
+position = Vector2( 12303, 485 )
+
+[node name="pushable_rock7" parent="." instance=ExtResource( 30 )]
+position = Vector2( 12506, 421 )
+scale = Vector2( 2.84, 2.84 )
+
+[node name="destructible_rock3" parent="." instance=ExtResource( 28 )]
+position = Vector2( 12274, 67 )
+scale = Vector2( 2.84, 2.84 )
+hit_count = 15
+
+[node name="destructible_rock1" parent="." instance=ExtResource( 31 )]
+position = Vector2( 12030, 467 )
+scale = Vector2( 2.35999, 2.35999 )
+hit_count = 10
+
+[node name="destructible_rock4" parent="." instance=ExtResource( 31 )]
+position = Vector2( 12797, 303 )
+scale = Vector2( 2.35999, 2.35999 )
+hit_count = 10
+
+[node name="destructible_rocks3" parent="." instance=ExtResource( 29 )]
+position = Vector2( 12296, 859 )
+scale = Vector2( 7.24, 7.24 )
+hit_count = 40
+
+[node name="pushable_rock6" parent="." instance=ExtResource( 27 )]
+position = Vector2( 12849, 109 )
+
+[node name="pushable_rock5" parent="." instance=ExtResource( 30 )]
+position = Vector2( 12737, 181 )
+
+[node name="destructible_rock5" parent="." instance=ExtResource( 31 )]
+position = Vector2( 11002, 164 )
+
+[node name="destructible_rock6" parent="." instance=ExtResource( 31 )]
+position = Vector2( 11891, 624 )
+
+[node name="destructible_rock7" parent="." instance=ExtResource( 31 )]
+position = Vector2( 11505, 313 )
+
+[node name="destructible_rock8" parent="." instance=ExtResource( 31 )]
+position = Vector2( 11839, 375 )
+
+[node name="destructible_rocks4" parent="." instance=ExtResource( 29 )]
+position = Vector2( 15099, 311 )
+scale = Vector2( 9.2777, 9.2777 )
+hit_count = 27
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 22
+
+[node name="Ast3" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 10910.8, 601.96 )
+texture = ExtResource( 22 )
+
+[node name="Ast4" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 10821.8, 424.96 )
+texture = ExtResource( 21 )
+
+[node name="Ast7" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11113.8, 608.96 )
+texture = ExtResource( 8 )
+
+[node name="Ast1" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11294.8, 801.96 )
+texture = ExtResource( 13 )
+
+[node name="Ast6" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11646.8, 709.96 )
+texture = ExtResource( 15 )
+
+[node name="Ast9" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11618.8, 811.96 )
+texture = ExtResource( 11 )
+
+[node name="Ast10" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11722.8, 773.96 )
+texture = ExtResource( 19 )
+
+[node name="Ast5" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11840.8, 839.96 )
+texture = ExtResource( 22 )
+
+[node name="Ast2" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11714, 65 )
+texture = ExtResource( 13 )
+
+[node name="Ast8" type="Sprite" parent="StaticBody2D2"]
+position = Vector2( 11274, 95 )
+texture = ExtResource( 18 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11274, 95 )
+polygon = PoolVector2Array( 11, -61.8, 71, -35.8, 71, -34.5, 80, -27.5, 80, -23.5, 81.1, -4.5, 79.5, -4.5, 64.5, 43.5, 63, 43.5, 55, 54.5, 52.7, 54.5, 41.7, 62.5, 36.3, 62.5, 1.1, 67.5, -51, 67.5, -51, 66, -64, 63.1, -64, 61.4, -76, 48.3, -76, 45.8, -82, 27.8, -82, 21.5, -83.1, 2.5, -81.8, 2.5, -78.8, -25.5, -77.2, -25.5, -71.2, -36.5, -69.8, -36.5, -50.8, -55.5, -46.5, -55.5, -39.5, -59.5, -32.4, -59.5, -18, -62.2, -18, -63.5, 11, -63.5 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 10821.8, 424.96 )
+polygon = PoolVector2Array( 15, -61.3, 15, -59.6, 41, -44.7, 41, -43.3, 58, -26.3, 58, -23.5, 60.2, -3.5, 58.5, -3.5, 52.5, 19.5, 51.3, 19.5, 40.3, 45.5, 38.9, 45.5, 24.9, 62.5, 22.6, 62.5, 14.6, 67.5, 5.3, 67.5, -12.8, 70.5, -25.3, 70.5, -33, 67.9, -33, 66.3, -40, 59.3, -40, 56.8, -48, 37.9, -48, 33.9, -56, 11.9, -56, 6.5, -58.3, -11.5, -56.5, -11.5, -50.6, -35.5, -49.2, -35.5, -41.2, -50.5, -39.7, -50.5, -30.8, -58.5, -27.1, -58.5, -13, -62, -13, -63.7 )
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 10910.8, 601.96 )
+polygon = PoolVector2Array( 3.5, -59.6, 3.5, -58.2, 39.5, -39.2, 39.5, -38, 54.5, -26, 54.5, -23.5, 61.5, -6, 59, -6, 54, 11, 52.6, 11, 32.6, 44, 31.4, 44, 13.4, 63, 10.7, 63, 1.5, 65.7, 1.5, 63.4, -4.5, 61.4, -4.5, 59.9, -50.5, 19.9, -50.5, 17.8, -60.5, 6.8, -60.5, 4.4, -66.5, -12.7, -66.5, -21.2, -61.1, -48, -59.6, -48, -52.6, -59, -50, -59, -45.1, -62, -26.7, -62, -20.5, -62.8, -20.5, -64.4 )
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11113.8, 608.96 )
+polygon = PoolVector2Array( 19, -60.9, 28, -57.9, 28, -56.3, 41, -43.3, 41, -41.1, 46, -33.1, 46, -8.5, 45, -8.5, 45, 3.5, 43.4, 3.5, 37.4, 18.5, 35.8, 18.5, 1.8, 53.5, -0.400002, 53.5, -6.4, 57.5, -16, 57.5, -16, 55.8, -29, 49.8, -29, 48.4, -37, 41.4, -37, 37.9, -46, -11.3, -46, -33.5, -44.4, -33.5, -42.4, -39.5, -40.9, -39.5, -26.8, -52.5, -24.5, -52.5, -12.5, -59.5, -7.4, -59.5, 1, -61.2, 1, -62.5, 19, -62.5 )
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11294.8, 801.96 )
+polygon = PoolVector2Array( 23.5, -219.3, 64.5, -201.3, 64.5, -200.2, 74.5, -195.2, 74.5, -193.9, 85.5, -183.9, 85.5, -181.7, 160.5, -95.7, 160.5, -93.7, 169.5, -83.8, 169.5, -81.5, 191.6, -44, 192.3, -44, 223.5, -12.8, 223.5, -10.7, 230.5, -1.7, 230.5, 0.699997, 236.5, 20.7, 236.5, 37.2, 231.1, 60, 229.7, 60, 221.7, 76, 220.3, 76, 188.3, 109, 186.2, 109, 152.2, 137, 150.1, 137, 98.1, 170, 96.1, 170, 54, 193, 50.9, 193, -8.2, 214, -56.5, 214, -56.5, 212.7, -86.5, 206.6, -86.5, 205.4, -116.5, 194.4, -116.5, 193, -133.5, 181, -133.5, 179.8, -160.5, 153.9, -160.5, 151.9, -195.5, 114.8, -195.5, 112.7, -213.5, 88.7, -213.5, 86.5, -227.5, 60.5, -227.5, 56.4, -234.5, 38.4, -234.5, 22, -233, 22, -231.1, 14, -229.5, 14, -220.5, 1, -219.3, 1, -174.5, -43.8, -174.5, -45.7, -138.5, -91.7, -138.5, -93.5, -110.7, -143, -109.4, -143, -82.4, -174, -80.2, -174, -55.2, -193, -53, -193, -28, -207, -25, -207, -11, -214, -7.60001, -214, 11.5, -219.5, 23.5, -220 )
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11714, 65 )
+polygon = PoolVector2Array( 23.5, -219.3, 64.5, -201.3, 64.5, -200.2, 74.5, -195.2, 74.5, -193.9, 85.5, -183.9, 85.5, -181.7, 160.5, -95.7, 160.5, -93.7, 169.5, -83.8, 169.5, -81.5, 191.6, -44, 192.3, -44, 223.5, -12.8, 223.5, -10.7, 230.5, -1.7, 230.5, 0.699997, 236.5, 20.7, 236.5, 37.2, 231.1, 60, 229.7, 60, 221.7, 76, 220.3, 76, 188.3, 109, 186.2, 109, 152.2, 137, 150.1, 137, 98.1, 170, 96.1, 170, 54, 193, 50.9, 193, -8.2, 214, -56.5, 214, -56.5, 212.7, -86.5, 206.6, -86.5, 205.4, -116.5, 194.4, -116.5, 193, -133.5, 181, -133.5, 179.8, -160.5, 153.9, -160.5, 151.9, -195.5, 114.8, -195.5, 112.7, -213.5, 88.7, -213.5, 86.5, -227.5, 60.5, -227.5, 56.4, -234.5, 38.4, -234.5, 22, -233, 22, -231.1, 14, -229.5, 14, -220.5, 1, -219.3, 1, -174.5, -43.8, -174.5, -45.7, -138.5, -91.7, -138.5, -93.5, -110.7, -143, -109.4, -143, -82.4, -174, -80.2, -174, -55.2, -193, -53, -193, -28, -207, -25, -207, -11, -214, -7.60001, -214, 11.5, -219.5, 23.5, -220 )
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11646.8, 709.96 )
+polygon = PoolVector2Array( 28, -66.9, 28, -65.4, 38, -61.4, 38, -60, 43, -56, 43, -53.4, 48.4, -40, 58, -29.1, 58, -0.400002, 47.1, 16, 45.7, 16, 15.7, 42, 13.6, 42, -17.4, 62, -21.1, 62, -39, 60.9, -39, 58.7, -45, 50.7, -45, 45, -55.3, -20, -53.4, -20, -49.4, -32, -47.9, -32, -30.8, -48, -28.5, -48, -3.6, -63, -0.299999, -63, 10, -66.4, 10, -68.1 )
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11840.8, 839.96 )
+polygon = PoolVector2Array( 3.5, -59.6, 3.5, -58.2, 39.5, -39.2, 39.5, -38, 54.5, -26, 54.5, -23.5, 61.5, -6, 59, -6, 54, 11, 52.6, 11, 32.6, 44, 31.4, 44, 13.4, 63, 10.7, 63, 1.5, 65.7, 1.5, 63.4, -4.5, 61.4, -4.5, 59.9, -50.5, 19.9, -50.5, 17.8, -60.5, 6.8, -60.5, 4.4, -66.5, -12.7, -66.5, -21.2, -61.1, -48, -59.6, -48, -52.6, -59, -50, -59, -45.1, -62, -26.7, -62, -20.5, -62.8, -20.5, -64.4 )
+
+[node name="CollisionPolygon2D9" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11722.8, 773.96 )
+polygon = PoolVector2Array( 5, -28.4, 13, -25.4, 13, -24, 25, -15, 25, -12.5, 26, -10.5, 26, -6, 22.7, 16, 20.7, 16, -0.299999, 32, -12, 32, -12, 29.8, -18, 23.8, -18, 21.3, -21, 14.4, -21, 8, -22, -19, -20.1, -19, -16.2, -26, -13.5, -26, -9, -28.2, -9, -30, 5, -30 )
+
+[node name="CollisionPolygon2D10" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11618.8, 811.96 )
+polygon = PoolVector2Array( 35, -24.6, 35, -22.7, 42, -13.4, 42, 11.3, 40.6, 17, 38.9, 17, 33.9, 23, 31, 23, -1, 24, -1, 22, -8, 17, -8, -2, -6.4, -2, -2.4, -13, 0.299999, -13, 15.3, -25, 17.6, -25, 21, -25.7, 21, -27.4 )
+
+[node name="CollisionPolygon2D11" type="CollisionPolygon2D" parent="StaticBody2D2"]
+position = Vector2( 11618.8, 811.96 )
+polygon = PoolVector2Array( -17, -22.5, -17, -21, -13, -18, -13, -9, -14.7, -9, -19.7, 2, -38, 2, -38, -0.200001, -41, -3.2, -41, -7.2, -39.6, -13, -38.1, -13, -31, -23.6, -31, -26.7 )
+
+[node name="planet" type="StaticBody2D" parent="."]
+position = Vector2( 17457, 361 )
+collision_layer = 4
+collision_mask = 2
+
+[node name="field" type="Area2D" parent="planet"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="planet/field"]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="planet/field"]
+modulate = Color( 0.286275, 0.262745, 0.262745, 0.443137 )
+show_behind_parent = true
+position = Vector2( 9.63211e-05, -3.76701e-05 )
+scale = Vector2( 3.02222, 2.98889 )
+texture = ExtResource( 32 )
+
+[node name="TutorialPlanet" type="Sprite" parent="planet"]
+position = Vector2( 3, -1 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 33 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="planet"]
+visible = false
+position = Vector2( 3, -1 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( 14, -250.4, 15.4, -247, 51, -247, 51, -244.4, 52.4, -241, 118, -241, 118, -238.4, 119.4, -235, 130, -235, 130, -232.7, 137, -224, 149, -224, 149, -221.4, 150.4, -218, 153.8, -218, 157, -214.8, 157, -212, 159.8, -212, 163, -208.8, 163, -206, 165.8, -206, 169, -202.8, 169, -200, 171.8, -200, 175, -196.8, 175, -195, 183.8, -195, 187, -191.8, 187, -183, 191.4, -183, 193.4, -177, 196.8, -177, 200, -173.8, 200, -171, 203.4, -171, 205.4, -166, 208.8, -166, 212, -162.8, 212, -154, 216, -154, 216, -151.4, 217.4, -148, 220.8, -148, 224, -144.8, 224, -137, 227.4, -137, 229.4, -131, 232.8, -131, 236, -127.8, 236, -119, 239.8, -119, 243, -115.8, 243, -101.4, 249, -99.4, 249, -85, 251.8, -85, 255, -81.8, 255, -61, 257.8, -61, 261, -57.8, 261, -26.4, 267, -24.4, 267, 8, 264.5, 8, 261, 9.39999, 261, 59.4, 255, 61.4, 255, 84, 252.5, 84, 249, 85.4, 249, 100.4, 243, 102.4, 243, 113, 240.5, 113, 237, 114.4, 237, 124, 234.5, 124, 231, 125.4, 231, 135, 228.5, 135, 225, 137.1, 225, 147, 222.5, 147, 219, 148.4, 219, 151.8, 215.8, 155, 212, 155, 212, 158.4, 207, 160.4, 207, 163.2, 205.6, 170, 203.5, 170, 200, 171.4, 200, 174.8, 196.8, 178, 194, 178, 194, 180.8, 190.8, 184, 188, 184, 188, 186.8, 184.8, 190, 181.2, 190, 178.2, 196, 176, 196, 176, 197.8, 172.8, 201, 170, 201, 170, 203.8, 166.8, 207, 157.2, 207, 154.2, 213, 151, 213, 151, 215.8, 147.8, 219, 145, 219, 145, 221.8, 141.8, 225, 132, 225, 124, 236, 113.4, 236, 111.4, 242, 102, 242, 102, 244.8, 98.8, 248, 83.2, 248, 80.2, 254, 58.4, 254, 56.4, 259, 3.39999, 259, 1.39999, 265, -27, 265, -27, 262.5, -28.4, 259, -50.4, 259, -52.4, 253, -75.4, 253, -77.4, 247, -94, 247, -94, 244.5, -95.4, 241, -106, 241, -106, 238.5, -107.3, 236, -125, 236, -125, 233.5, -126.4, 230, -129.8, 230, -133, 226.8, -133, 224, -135.8, 224, -139, 220.8, -139, 218, -149, 218, -149, 215.5, -150.4, 212, -154.4, 212, -156.4, 207, -159.8, 207, -163, 203.8, -163, 201, -174, 201, -174, 198.4, -175.7, 190, -179.6, 190, -194, 181.1, -194, 172, -203.8, 172, -207, 168.8, -207, 161, -211, 161, -211, 158.4, -212.4, 155, -215.8, 155, -219, 151.8, -219, 143.4, -225, 141.4, -225, 132, -228.4, 132, -230.4, 126, -233.8, 126, -237, 122.8, -237, 115, -239.8, 115, -244, 110.8, -244, 97, -247.4, 97, -249.4, 91, -252.8, 91, -256, 87.8, -256, 44.4, -262, 42.4, -262, 16, -264.8, 16, -268, 12.8, -268, -12.4, -262, -14.4, -262, -48, -259.4, -48, -256, -49.4, -256, -71, -253.3, -71, -249, -72.4, -249, -89, -246.4, -89, -243, -90.4, -243, -106, -240.4, -106, -237, -107.4, -237, -118, -234.4, -118, -231, -119.4, -231, -129, -228.4, -129, -225, -130.4, -225, -140, -222.4, -140, -219, -141.4, -219, -152, -216.3, -152, -212, -153.4, -212, -156.8, -208.8, -160, -206, -160, -206, -169, -203.4, -169, -200, -170.4, -200, -173.8, -196.8, -177, -194, -177, -194, -179.8, -190.8, -183, -188, -183, -188, -185.8, -184.8, -189, -182, -189, -182, -191.8, -178.8, -195, -175.4, -195, -173.4, -200, -170, -200, -170, -202.8, -166.8, -206, -163, -206, -163, -209.4, -157, -211.4, -157, -214.8, -153.8, -218, -146, -218, -146, -222, -143.3, -222, -139, -223.4, -139, -226.8, -135.8, -230, -126.4, -230, -124.4, -236, -114.4, -236, -112.4, -241, -103, -241, -103, -243.8, -99.8, -247, -83.4, -247, -82, -250.4, -82, -253, 14, -253 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="body_entered" from="planet/field" to="." method="_on_field_body_entered"]

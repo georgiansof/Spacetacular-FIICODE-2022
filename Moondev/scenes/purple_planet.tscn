@@ -1,0 +1,458 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://scenes/Esc_UI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/objectives.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/purple_planet.gd" type="Script" id=3]
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/png_res/purple_ground.png" type="Texture" id=5]
+[ext_resource path="res://scenes/Dialog.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/png_res/purple_planet_house.png" type="Texture" id=7]
+[ext_resource path="res://scenes/png_res/tree1.png" type="Texture" id=8]
+[ext_resource path="res://scenes/png_res/tree2.png" type="Texture" id=9]
+[ext_resource path="res://scenes/png_res/tree3.png" type="Texture" id=10]
+[ext_resource path="res://scenes/png_res/tree4.png" type="Texture" id=11]
+[ext_resource path="res://scenes/png_res/tree5.png" type="Texture" id=12]
+[ext_resource path="res://scenes/png_res/tree7.png" type="Texture" id=13]
+[ext_resource path="res://scenes/png_res/tree6.png" type="Texture" id=14]
+[ext_resource path="res://scenes/sign_mirror.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/png_res/log.png" type="Texture" id=16]
+[ext_resource path="res://scenes/purple_planet_alien.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/png_res/Solid_white.png" type="Texture" id=18]
+[ext_resource path="res://scenes/Choice.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/Mirror.tscn" type="PackedScene" id=20]
+[ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=21]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 60, 46 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9.5, 346.25 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "alien_appear"
+length = 15.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("alien:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1, 1.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1182, 536 ), Vector2( 1048, 542 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("alien")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1, 1.7, 3, 3.7, 4.7, 5.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ "Walk_Left" ],
+"method": "anim_change"
+}, {
+"args": [ "Idle" ],
+"method": "anim_change"
+}, {
+"args": [ "Triggered" ],
+"method": "anim_change"
+}, {
+"args": [ "Idle" ],
+"method": "anim_change"
+}, {
+"args": [ "Triggered" ],
+"method": "anim_change"
+}, {
+"args": [ "Idle" ],
+"method": "anim_change"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("house_light:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0.937255, 0, 1 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Dialog")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 2.2, 2.5, 3.5, 4.3, 5.4, 6, 6.5, 7.7, 9, 9.5, 10, 10.9, 11.1, 11.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ [ "ALIEN: *Cade'mill gar'tean* [fill] [i]Hello there![/i]" ] ],
+"method": "show"
+}, {
+"args": [ [ "*Moun'e Caen conyn aark crag?* [fill] [i] Can we talk for a second? [/i]" ] ],
+"method": "show"
+}, {
+"args": [ [ "*NODT AEP YER ARSE PUN JAB DAZ FURN!?*[fill](approx)[i]What tHe heCK you iNterRuPt mY sLeEp iN tHe miDDle oF tHe[/i]" ] ],
+"method": "show"
+}, {
+"args": [ [ "*punjha...*[fill] [i] the ... [/i]" ] ],
+"method": "show"
+}, {
+"args": [ [ "*pun eapvarteh* [fill] [i] the whatever [/i]" ] ],
+"method": "show"
+}, {
+"args": [ [ "*An Yer 'ere n'te haern taeg aespar mi akev va'esse?*[fill][i]Now that you are here, don't you want to help me with something?[/i]" ] ],
+"method": "show"
+}, {
+"args": [ "TAKUMI:If that is how you treat your guests, why would I help you?[fill] [i]*Dorp que mir' ti n'te va aep invaerne imbaelk het hanse'eaern?*[/i]" ],
+"method": "show"
+}, {
+"args": [ "*Haela gynvael glosse elle ban, dh'aine dol eigan marw meath loc'h luned. Oine squaess. *[fill] [i]I don't like my reaction myself, it's just an impulse that I sense when waking up this bad. Forgive me please.[/i]" ],
+"method": "show"
+}, {
+"args": [ "ALIEN: *Voye te, woedd me'ef een* [fill] [i]You see, I need some wood to burn.[/i]" ],
+"method": "show"
+}, {
+"args": [ "*Aire Carbn birkham an aete tir me marwes neen n'te*[fill][i]The CO2 thickness starts to shrink at this height and I'm going to suffocate if i don't burn more wood.[/i]" ],
+"method": "show"
+}, {
+"args": [ "*Nen te cyrre blathe han kom es loa'then ?* [fill] [i]Don't you feel like the air is a bit thin?[/i]" ],
+"method": "show"
+}, {
+"args": [ "TAKUMI(introspecting): The oxygen in my tank is consuming, If I only had a pump to push in from this atmosphere" ],
+"method": "show"
+}, {
+"args": [ "I don't breathe CO2. I breathe Oxygen. [fill] [i]*Spar'le tedd tirthe mistle Carbn aire.Yo morc Oxygen*[/i]" ],
+"method": "show"
+}, {
+"args": [ "ALIEN: *taerde fod ce'eb d'te m'hanse. Gynvael het'oll invaerne; caer zaeleill* [fill] [i] You are a very lucky one my friend. I already feel a bit dizzy; so would you help me? [/i]" ],
+"method": "show"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("Player")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 6.5, 6.6, 11.1, 11.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "interact_switch"
+}, {
+"args": [  ],
+"method": "interact_switch"
+}, {
+"args": [  ],
+"method": "interact_switch"
+}, {
+"args": [  ],
+"method": "interact_switch"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("Objectives")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "One lone guy", "Speak with the alien" ],
+"method": "new_objective"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 11.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_choice"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("alien:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.66, 0.66 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "anger_path"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PATH:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "ANGER PATH" ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "empathy_path"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PATH:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "Empathy path" ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "pragmatism_path"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PATH:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "pragmatism path" ]
+}
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 21 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 184.5, 37.5 )
+
+[node name="root" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Choice" parent="." instance=ExtResource( 19 )]
+
+[node name="Dialog" parent="." instance=ExtResource( 6 )]
+
+[node name="Objectives" parent="." instance=ExtResource( 2 )]
+
+[node name="escape" parent="." instance=ExtResource( 1 )]
+
+[node name="alien" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1194, 536.056 )
+scale = Vector2( 0.66, 0.66 )
+
+[node name="house_light" type="Sprite" parent="."]
+modulate = Color( 1, 0.937255, 0, 1 )
+position = Vector2( 1379, 485 )
+scale = Vector2( 2.18416, 1.49972 )
+texture = ExtResource( 18 )
+
+[node name="background sprites" type="Node2D" parent="."]
+modulate = Color( 0.945098, 0, 1, 1 )
+position = Vector2( 0, 13 )
+
+[node name="Sign" parent="background sprites" instance=ExtResource( 15 )]
+position = Vector2( 674, 532 )
+scale = Vector2( 1.36, 1.36 )
+repl = [ "This old poor tree seems to have been through a bundle of unfortunate events." ]
+
+[node name="Sign2" parent="background sprites" instance=ExtResource( 15 )]
+position = Vector2( 931, 512 )
+scale = Vector2( 1.28, 1.28 )
+repl = [ "STOP using firearms at my window !" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="background sprites"]
+position = Vector2( 949, 546 )
+scale = Vector2( 3.85015, 3.95259 )
+collision_layer = 8
+collision_mask = 18
+
+[node name="Log" type="Sprite" parent="background sprites/StaticBody2D"]
+texture = ExtResource( 16 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="background sprites/StaticBody2D"]
+polygon = PoolVector2Array( 6.75298, -3.03598, 15.5838, -2.78299, 16.8824, -1.26498, 16.8824, 5.81898, 16.8824, 7.08397, -15.5838, 6.83098, -15.3241, 3.54199, -14.5449, 0.253006, -13.506, -3.54198, -0.779205, -3.79498, 2.59729, -7.08397, 3.63622, -8.85497, 5.1946, -8.85497 )
+
+[node name="Trees" type="Sprite" parent="background sprites"]
+position = Vector2( 201, 501 )
+scale = Vector2( 1.76582, 1.90367 )
+texture = ExtResource( 8 )
+
+[node name="Tree10" type="Sprite" parent="background sprites"]
+position = Vector2( -393.625, 454.554 )
+scale = Vector2( 2.2259, 2.2259 )
+texture = ExtResource( 10 )
+
+[node name="Tree2" type="Sprite" parent="background sprites"]
+position = Vector2( 101, 525 )
+texture = ExtResource( 9 )
+
+[node name="Tree3" type="Sprite" parent="background sprites"]
+position = Vector2( 266, 472 )
+scale = Vector2( 1.57229, 1.975 )
+texture = ExtResource( 10 )
+
+[node name="Tree1" type="Sprite" parent="background sprites"]
+position = Vector2( 39, 540 )
+texture = ExtResource( 8 )
+
+[node name="Tree6" type="Sprite" parent="background sprites"]
+position = Vector2( 756.563, 366.531 )
+scale = Vector2( 3.78906, 4.56355 )
+texture = ExtResource( 12 )
+
+[node name="Tree9" type="Sprite" parent="background sprites"]
+position = Vector2( -307.625, 489.554 )
+scale = Vector2( 1.01899, 2.15138 )
+texture = ExtResource( 8 )
+
+[node name="Tree7" type="Sprite" parent="background sprites"]
+position = Vector2( -46.75, 439.721 )
+scale = Vector2( 3.05769, 3.05769 )
+texture = ExtResource( 13 )
+
+[node name="Tree8" type="Sprite" parent="background sprites"]
+position = Vector2( -255.625, 514.983 )
+scale = Vector2( 2.14286, 2.14286 )
+texture = ExtResource( 14 )
+
+[node name="Tree11" type="Sprite" parent="background sprites"]
+position = Vector2( 834, 534 )
+texture = ExtResource( 8 )
+
+[node name="Tree12" type="Sprite" parent="background sprites"]
+position = Vector2( -586, 529 )
+texture = ExtResource( 12 )
+
+[node name="PurplePlanetHouse" type="Sprite" parent="background sprites"]
+position = Vector2( 1378, 326 )
+scale = Vector2( 0.540967, 0.540967 )
+texture = ExtResource( 7 )
+
+[node name="Tree4" type="Sprite" parent="background sprites"]
+position = Vector2( 1089, 423 )
+scale = Vector2( 2.16667, 2.51493 )
+texture = ExtResource( 11 )
+
+[node name="Tree5" type="Sprite" parent="background sprites"]
+position = Vector2( 1671, 423 )
+scale = Vector2( 2.16667, 2.51493 )
+texture = ExtResource( 11 )
+
+[node name="Windows" type="Area2D" parent="background sprites"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="background sprites/Windows"]
+position = Vector2( 1248, 477 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="background sprites/Windows"]
+position = Vector2( 1506, 477 )
+shape = SubResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+position = Vector2( 453, 453 )
+run_speed = 150
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2( 0, -73 )
+current = true
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2( 648, 798 )
+scale = Vector2( 10.1406, 1.76 )
+
+[node name="PurpleGround" type="Sprite" parent="Ground"]
+modulate = Color( 0.364706, 0.239216, 0.666667, 1 )
+texture = ExtResource( 5 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground"]
+polygon = PoolVector2Array( 180, 120, -180, 120, -180, -120, 180, -120 )
+
+[node name="leftwall" type="StaticBody2D" parent="."]
+position = Vector2( -313, 320 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="leftwall"]
+shape = SubResource( 1 )
+
+[node name="rightwall" type="StaticBody2D" parent="."]
+position = Vector2( 1817, 317 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="rightwall"]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/alien_appear = SubResource( 3 )
+anims/anger_path = SubResource( 4 )
+anims/empathy_path = SubResource( 5 )
+anims/pragmatism_path = SubResource( 6 )
+
+[node name="PATH" type="Label" parent="."]
+margin_left = 851.0
+margin_top = 433.0
+margin_right = 891.0
+margin_bottom = 454.0
+custom_fonts/font = SubResource( 7 )
+text = "ANGER PATH"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="instr" type="Label" parent="."]
+visible = false
+margin_left = 469.0
+margin_top = 363.0
+margin_right = 618.0
+margin_bottom = 384.0
+custom_fonts/font = SubResource( 7 )
+text = "Shoot the mirror"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mirror" parent="." instance=ExtResource( 20 )]
+position = Vector2( 280, 521 )
+scale = Vector2( 0.30104, 0.30104 )
+collision_layer = 0
+collision_mask = 16
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 268.5, -41 )
+shape = SubResource( 8 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="alien_choice" from="." to="." method="_on_alien_decided"]
+[connection signal="body_entered" from="background sprites/Windows" to="." method="_on_Windows_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

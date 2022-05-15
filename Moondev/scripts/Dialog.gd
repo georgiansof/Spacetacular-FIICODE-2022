@@ -26,8 +26,12 @@ func show(replies):
 	get_tree().paused = true
 	globals.is_paused_by_other_means = true
 	$Background.visible = true
-	for r in replies:
-		label.text = r
+	if typeof(replies)==TYPE_ARRAY:
+		for r in replies:
+			label.bbcode_text = r
+			yield(self,"text_read")
+	else:
+		label.bbcode_text = replies
 		yield(self,"text_read")
 	$Background.visible = false
 	globals.is_paused_by_other_means = false

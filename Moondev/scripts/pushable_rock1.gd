@@ -15,18 +15,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	print(self.mode)
 	pass
 
-func set_state_static() -> void:
-	self.mode = RigidBody2D.MODE_STATIC
-	
-func set_state_rigid() -> void:
-	self.mode = RigidBody2D.MODE_RIGID
-
-func _on_pushable_rock_body_entered(body):
-	pass # Replace with function body.
-
-
-func _on_pushable_rock_body_exited(body):
-	pass # Replace with function body.

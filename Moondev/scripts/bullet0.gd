@@ -29,7 +29,10 @@ func _on_Bullet_body_entered(body):
 				body.queue_free()
 			else:
 				body.hit_count -=1 
-	queue_free()
+	if !body.is_in_group("deflectible"):
+		queue_free()
+	else: # TODO MIRROR DEFLECTION
+		self.apply_central_impulse(Vector2.UP * 3 * speed)
 
 
 	

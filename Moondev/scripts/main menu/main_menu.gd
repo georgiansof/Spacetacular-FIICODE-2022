@@ -155,6 +155,7 @@ func _on_New_Game_pressed():
 			fading=true
 			$SFX.stream=impact_sfx
 			$SFX.play()
+			fade_out($Music)
 			timer = get_tree().create_timer(3.5)
 			yield(timer, "timeout")
 			var file=File.new()
@@ -425,17 +426,31 @@ func Load_Game(savegame) -> void:
 	var svg_content=svg.get_as_text()
 	svg.close()
 	globals.current_savegame = savegame
+	
+	var lvls = globals.Load(savegame)
+	if typeof(lvls)==TYPE_DICTIONARY:
+		if lvls.has("anger"):
+			globals.player_level["anger"]=lvls["anger"]
+		if lvls.has("empathy"):
+			globals.player_level["empathy"]=lvls["empathy"]
+		if lvls.has("pragmatism"):
+			globals.player_level["pragmatism"]=lvls["pragmatism"]
+		
 	if svg_content=="" || (str2var(svg_content).has("NG") && str2var(svg_content)["NG"]==true):
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/NG.tscn")
 	else:
 # warning-ignore:return_value_discarded
 		if str2var(svg_content).has("Tutorial") && str2var(svg_content)["Tutorial"]==false:
-			get_tree().change_scene("res://scenes/world.tscn")
+			if str2var(svg_content).has("checkpoint") && str2var(svg_content)["checkpoint"]=="purple_planet":
+				get_tree().change_scene("res://scenes/purple_planet.tscn")
+			else: 
+				get_tree().change_scene("res://scenes/world.tscn")
 		elif str2var(svg_content).has("Tutorial") && str2var(svg_content)["Tutorial"]==true:
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/planet.tscn")
 		else:
-#warning-ignore:return_value_discarded
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/overworld.tscn")
 		pass 
 	pass

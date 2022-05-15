@@ -13,7 +13,7 @@ export (int) var mass = 1
 export (int) var rotation_speed=3
 
 export (int) var acceleration=25
-export (int) var fastacceleration= 50
+export (int) var fastacceleration=25
 export (int) var maxspeed=300
 export (int) var maxspeed_y=200
 
@@ -26,7 +26,11 @@ export (int) var jump_speed = -400
 export (int) var gravity = 1200
 var velocity = Vector2()
 var jumping = false
+onready var interact_sprite = $interaction
 #
+
+func interact_switch() -> void:
+	interact_sprite.visible = !interact_sprite.visible
 
 func _ready():
 	$AudioStreamPlayer.volume_db = linear2db (globals.sfx_volume/100.0 * 0.5)
@@ -44,15 +48,22 @@ func Animate() -> void:
 		var IsUpKeyPressed := Input.is_action_pressed("action_up")
 		var IsSpacePressed := Input.is_action_pressed("action_shoot")
 		var IsSpaceJustPressed := Input.is_action_just_pressed("action_shoot")
+		var IsShiftPressed := Input.is_action_pressed("action_hold")
 		
 		if IsRightKeyPressed && IsLeftKeyPressed:
-			return
+			pass
 		elif IsRightKeyPressed:
-			globals.player_facing = "right"
-			globals.player_state = "Walk_Right"
+			if IsShiftPressed:
+				pass
+			else:
+				globals.player_facing = "right"
+				globals.player_state = "Walk_Right"
 		elif IsLeftKeyPressed:
-			globals.player_facing = "left"
-			globals.player_state = "Walk_Left"
+			if IsShiftPressed:
+				pass
+			else:
+				globals.player_facing = "left"
+				globals.player_state = "Walk_Left"
 		elif !is_on_floor():
 			if globals.player_facing == "right":
 				globals.player_state = "Fall_Right"
@@ -178,7 +189,6 @@ func rocketshoot_eligible() -> bool:
 
 # warning-ignore:unused_argument
 func _physics_process(delta):
-			
 	if find(globals.player_state, rocket_states):
 		if Input.is_action_pressed("action_left"): 
 			self.rotation_degrees-=rotation_speed
@@ -196,12 +206,13 @@ func _physics_process(delta):
 				speed-=brakespeed
 		if Input.is_action_pressed("action_fastbrake"):
 			speed-=fastbrakespeed
-			if (speed<-1): speed=-75
+			if (speed<-1): speed=-fastbrakespeed
 		move(speed)
 		if speed - passivebrake > 0:
 			speed-=passivebrake
 		else:
-			if (speed>0): speed = 0
+			#if (speed>0): 
+			speed = 0
 		if rocketshoot_eligible() && Input.is_action_pressed("action_shoot"):
 			$RocketShoot_animplayer.play("Shooting")
 		else:
@@ -211,5 +222,5 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		if jumping && is_on_floor():
 			jumping = false
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		velocity = move_and_slide(velocity, Vector2(0, -1),false,4,0.785398,false)
 	pass
