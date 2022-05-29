@@ -10,6 +10,8 @@ var player_level = {"anger":0 , "empathy":0 , "pragmatism":0}
 var on_rocket:=false
 var on_planet:=false
 var camera_speed := 350
+var mod_instances = []
+var mod_spacing_instances = []
 
 #
 

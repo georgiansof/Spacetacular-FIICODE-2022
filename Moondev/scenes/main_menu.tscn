@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://fonts/DynamicFonts/orbitron.tres" type="DynamicFont" id=1]
 [ext_resource path="res://fonts/Orbitron-VariableFont_wght.ttf" type="DynamicFontData" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scenes/png_res/back1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/main menu/main_bg.gd" type="Script" id=7]
 [ext_resource path="res://fonts/RockSalt-Regular.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://fonts/Times New Roman/times new roman bold.ttf" type="DynamicFontData" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
@@ -20,6 +21,17 @@ font_data = ExtResource( 2 )
 size = 20
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=6]
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 26
+extra_spacing_char = 6
+font_data = ExtResource( 2 )
+
 [node name="Main Menu UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,7 +43,6 @@ __meta__ = {
 [node name="Camera2D" type="Camera2D" parent="."]
 z_as_relative = false
 anchor_mode = 0
-current = true
 
 [node name="main_bg" type="Node2D" parent="."]
 script = ExtResource( 7 )
@@ -62,11 +73,9 @@ margin_right = 242.0
 margin_bottom = 216.0
 custom_fonts/font = SubResource( 1 )
 text = "Spacetacular"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -75,9 +84,6 @@ margin_left = -54.0
 margin_top = -218.0
 margin_right = 66.0
 margin_bottom = -98.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Continue" type="Button" parent="VBoxContainer"]
 visible = false
@@ -207,7 +213,6 @@ __meta__ = {
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
-autoplay = true
 
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 
@@ -500,6 +505,71 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="MODS" type="Button" parent="."]
+margin_left = 1116.0
+margin_top = 666.0
+margin_right = 1254.0
+margin_bottom = 694.0
+custom_fonts/font = SubResource( 4 )
+text = "MODS"
+
+[node name="mods_menu" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Back" type="Button" parent="mods_menu"]
+margin_left = 565.0
+margin_top = 599.0
+margin_right = 697.0
+margin_bottom = 626.0
+custom_fonts/font = ExtResource( 1 )
+text = "Back to menu"
+
+[node name="Button" type="Button" parent="mods_menu"]
+margin_left = 1116.0
+margin_top = 668.0
+margin_right = 1253.0
+margin_bottom = 692.0
+custom_fonts/font = SubResource( 6 )
+text = "Open file manager"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="mods_menu"]
+self_modulate = Color( 1, 1, 1, 0.580392 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -549.0
+margin_top = -476.0
+margin_right = 563.0
+margin_bottom = -151.0
+grow_horizontal = 2
+grow_vertical = 2
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="mods_menu/ScrollContainer"]
+margin_right = 1061.0
+margin_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="label" type="Label" parent="mods_menu/ScrollContainer/VBoxContainer"]
+margin_right = 1061.0
+margin_bottom = 34.0
+custom_fonts/font = SubResource( 5 )
+text = "                                    MODLIST                                "
+align = 1
+
+[node name="spacing" type="Label" parent="mods_menu/ScrollContainer/VBoxContainer"]
+margin_top = 38.0
+margin_right = 1061.0
+margin_bottom = 103.0
+text = "
+
+
+"
+
 [node name="TweenOut" type="Tween" parent="."]
 
 [node name="Tween" type="Tween" parent="."]
@@ -516,6 +586,7 @@ __meta__ = {
 [connection signal="value_changed" from="SfxSlider" to="." method="_on_SfxSlider_value_changed"]
 [connection signal="toggled" from="SfxSlider/isSfxOn" to="." method="_on_isSfxOn_toggled"]
 [connection signal="toggled" from="SfxSlider/Fade Enable/CheckButton" to="." method="_on_Fade_CheckButton_toggled"]
+[connection signal="finished" from="Music" to="." method="_on_Music_finished"]
 [connection signal="pressed" from="options_back" to="." method="_on_options_back_pressed"]
 [connection signal="confirmed" from="SvgPopUp" to="." method="_on_SvgPopUp_confirmed"]
 [connection signal="popup_hide" from="SvgPopUp" to="." method="_on_SvgPopUp_popup_hide"]
@@ -541,4 +612,7 @@ __meta__ = {
 [connection signal="pressed" from="Savegames_menu/Slot Options/Load" to="." method="_on_Load_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Remove" to="." method="_on_Remove_pressed"]
 [connection signal="pressed" from="Savegames_menu/Slot Options/Back" to="." method="_on_Back_Slot_pressed"]
+[connection signal="pressed" from="MODS" to="." method="_on_MODS_pressed"]
+[connection signal="pressed" from="mods_menu/Back" to="." method="_on_Back_mods_pressed"]
+[connection signal="pressed" from="mods_menu/Button" to="." method="_on_Button_pressed"]
 [connection signal="tween_completed" from="TweenOut" to="." method="_on_TweenOut_tween_completed"]

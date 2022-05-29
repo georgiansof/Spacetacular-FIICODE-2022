@@ -7,12 +7,19 @@ var popup_choice:=false
 var slot_node
 var continue_popup_choice:=false
 var rmv_popup_choice:=false
+var main_menu_theme = preload("res://soundtrack/main_theme.wav")
 var button_press_sfx = preload("res://sfx/button_advance.wav")
 var button_back_sfx = preload("res://sfx/button_back.wav")
 var attention_popup_sfx = preload("res://sfx/attention_popup.wav")
 var dialogue_popup_sfx = preload("res://sfx/dialogue_popup.wav")
 var impact_sfx = preload("res://sfx/low-impact.wav")
 var quit_sfx = preload("res://sfx/quit.wav")
+var o_button_press_sfx = preload("res://sfx/button_advance.wav")
+var o_button_back_sfx = preload("res://sfx/button_back.wav")
+var o_attention_popup_sfx = preload("res://sfx/attention_popup.wav")
+var o_dialogue_popup_sfx = preload("res://sfx/dialogue_popup.wav")
+var o_impact_sfx = preload("res://sfx/low-impact.wav")
+var o_quit_sfx = preload("res://sfx/quit.wav")
 var timer
 var play_ng_sfx := true
 onready var mod = $"Game Title".get_modulate()
@@ -26,11 +33,57 @@ var fading := false
 
 onready var tween_out = $TweenOut
 onready var tween = $Tween
+onready var music_player = $Music
+var modres = preload("res://scenes/mod.tscn")
 
 export var transition_duration = 1.00
 export var transition_type = 1
 
+func InitKeys() -> void:
+	var file = File.new()
+	file.open("user://keybindings.json",File.READ)
+	var dict = str2var(file.get_as_text())
+	file.close()
+	var actions = ["action_right","action_left","action_skip",\
+		"pause","action_boost","action_brake","action_fastbrake", \
+		"action_restart","action_shoot","action_interact","action_anger",\
+		"action_empathy","action_pragmatism"]
+	
+	var default = {"action_up" : "W"}
+	default["action_pragmatism"] = "J"
+	default["action_empathy"] = "G"
+	default["action_anger"] = "Y"
+	default["action_interact"] = "E"
+	default["action_shoot"] = "SPACE"
+	default["action_restart"] = "R"
+	default["action_fastbrake"] = "CONTROL"
+	default["action_brake"] = "S"
+	default["action_boost"] = "W"
+	default["pause"] = "ESCAPE"
+	default["action_skip"] = "F"
+	default["action_left"] = "A"
+	default["action_right"] = "D"
+	
+	for a in actions:
+		if dict.has(a) && (OS.find_scancode_from_string(dict[a])):
+			var ev = InputEventKey.new()
+			ev.scancode = OS.find_scancode_from_string(default[a])
+			InputMap.action_erase_event(a,ev)
+			ev.scancode = OS.find_scancode_from_string(dict[a])
+			InputMap.action_add_event(a, ev)
+
 func _ready():
+	music_player.stream = main_menu_theme
+	music_player.play()
+	var file= File.new()
+	if !file.file_exists("user://keybindings.json"):
+		CreateKeybindings("user://")
+	else:
+		file.open("user://keybindings.json",File.READ)
+		if file.get_as_text()=="":
+			CreateKeybindings("user://")
+		else:
+			InitKeys()
 	#fade_in($Music)
 	$"SfxSlider/Fade Enable/CheckButton".pressed = globals.fadecheck
 	if globals.fadecheck == true:
@@ -46,6 +99,11 @@ func _ready():
 	for i in range (0,4):
 		children[i].visible = true
 	
+	var dir = Directory.new()
+	if dir.dir_exists(OS.get_executable_path().get_base_dir()+"/mods"):
+		$MODS.visible=true
+		init_mods()
+		
 	if globals.default_savegame!="#":
 		get_node("VBoxContainer/Continue").visible=true
 	get_node("MusicSlider").value = globals.music_volume
@@ -120,6 +178,7 @@ func CheckNumberOfSaves() -> int:
 	return files.size()
 
 func _on_New_Game_pressed():
+	$MODS.visible = false
 	if buttons_disabled:
 		return
 	if play_ng_sfx:
@@ -134,6 +193,7 @@ func _on_New_Game_pressed():
 		$SFX.play()
 		yield($SvgErrPopUp,"popup_hide")
 		$VBoxContainer.visible = true
+		$MODS.visible = true
 		return
 	$NG_menu/SavegameInput.text=""
 	yield($NG_menu/SavegameInput,"text_entered")
@@ -177,6 +237,7 @@ func _on_Options_pressed():
 		return
 	$SFX.stream=button_press_sfx
 	$SFX.play()
+	$MODS.visible=false
 	get_node("VBoxContainer").visible=false
 	get_node("MusicSlider").visible=true
 	get_node("SfxSlider").visible=true
@@ -197,6 +258,7 @@ func _on_Quit_pressed():
 func _on_options_back_pressed():
 	$SFX.stream=button_back_sfx
 	$SFX.play()
+	$MODS.visible = true
 	get_node("VBoxContainer").visible=true
 	get_node("MusicSlider").visible=false
 	get_node("SfxSlider").visible=false
@@ -263,6 +325,7 @@ func _on_Back_NG_pressed():
 	play_ng_sfx = true
 	$NG_menu.visible = false
 	$VBoxContainer.visible = true
+	$MODS.visible = true
 	pass 
 
 func isalphanum(c) -> bool:
@@ -473,6 +536,7 @@ func _on_Continue_pressed():
 	if buttons_disabled:
 		return
 	$VBoxContainer.visible=false
+	$MODS.visible=false
 	$SvgName_Continue.dialog_text = "Continue on savegame:\n" + globals.default_savegame + " ?"
 	$SvgName_Continue.popup()
 	$SFX.stream = dialogue_popup_sfx
@@ -489,6 +553,7 @@ func _on_Continue_pressed():
 		continue_popup_choice=false
 	else:
 		$VBoxContainer.visible = true
+		$MODS.visible=true
 	pass 
 
 func _on_SvgName_Continue_confirmed():
@@ -543,3 +608,256 @@ func _on_Fade_CheckButton_toggled(button_pressed):
 	globals.fadecheck = button_pressed
 	globals.UpdateFile()
 	pass 
+
+func subdirs(path):
+	var dir = Directory.new()
+	var s = []
+	if dir.open(path) == OK:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():        
+				if file_name!="." && file_name!="..":
+					s.append(file_name)
+			file_name = dir.get_next()
+	return s
+
+onready var spacingres = preload("res://scenes/spacing.tscn")
+
+func _on_mods_checkbox_pressed(button_pressed,scene):
+	var path = OS.get_executable_path().get_base_dir()
+	path+="/mods/"
+	path+=scene.get_node("Label").text
+	path+="/disabled.tgl"
+	var dir = Directory.new()
+	var file = File.new()
+	file.open(path,File.WRITE)
+	if button_pressed == false:
+		dir.remove(path)
+		file.store_string("disabled")
+		file.close()
+	else:
+		dir.remove(path)
+	if scene.get_node("Label").text == "sound":
+		sound_maker(scene)
+	pass
+
+func CreateKeybindings(path):
+	var file = File.new()
+	file.open(path+"keybindings.json",File.WRITE)
+	var dict = {"action_up" : "W"}
+	dict["action_pragmatism"] = "J"
+	dict["action_empathy"] = "G"
+	dict["action_anger"] = "Y"
+	dict["action_interact"] = "E"
+	dict["action_shoot"] = "SPACE"
+	dict["action_restart"] = "R"
+	dict["action_fastbrake"] = "CONTROL"
+	dict["action_brake"] = "S"
+	dict["action_boost"] = "W"
+	dict["pause"] = "ESCAPE"
+	dict["action_skip"] = "F"
+	dict["action_left"] = "A"
+	dict["action_right"] = "D"
+	file.store_string(var2str(dict))
+	pass
+
+func Remap(keys_dict,path) -> void:
+	keys_dict = str2var(keys_dict)
+	if typeof(keys_dict)!=TYPE_DICTIONARY:
+		var dir = Directory.new()
+		dir.remove(path+"keybindings.json")
+		path.erase(path.length()-1,1)
+		dir.remove(path)
+	else:
+		var file = File.new()
+		file.open("user://keybindings.json",File.READ_WRITE)
+		var default = file.get_as_text()
+		var defaults = str2var(default)
+		var actions = ["action_right","action_left","action_skip",\
+		"pause","action_boost","action_brake","action_fastbrake", \
+		"action_restart","action_shoot","action_interact","action_anger",\
+		"action_empathy","action_pragmatism"]
+		for a in actions:
+			if keys_dict.has(a) && (OS.find_scancode_from_string(keys_dict[a])):
+				var ev = InputEventKey.new()
+				ev.scancode = OS.find_scancode_from_string(defaults[a])
+				InputMap.action_erase_event(a,ev)
+				ev.scancode = OS.find_scancode_from_string(keys_dict[a])
+				InputMap.action_add_event(a, ev)
+				defaults[a]=keys_dict[a]
+		
+		file.store_string(var2str(defaults))
+		var dir = Directory.new()
+		dir.remove(path+"keybindings.json")
+		path.erase(path.length()-1,1)
+		dir.remove(path)
+	return
+
+func Check_Activity(scene):
+	var file = File.new()
+	var path = OS.get_executable_path().get_base_dir()
+	path+="/mods/"
+	path+=scene.get_node("Label").text
+	path+="/"
+	### keybind
+	if scene.get_node("Label").text == "keybindings":
+		if !file.file_exists(path+"keybindings.json"):
+			var default = {"action_up" : "W"}
+			default["action_pragmatism"] = "J"
+			default["action_empathy"] = "G"
+			default["action_anger"] = "Y"
+			default["action_interact"] = "E"
+			default["action_shoot"] = "SPACE"
+			default["action_restart"] = "R"
+			default["action_fastbrake"] = "CONTROL"
+			default["action_brake"] = "S"
+			default["action_boost"] = "W"
+			default["pause"] = "ESCAPE"
+			default["action_skip"] = "F"
+			default["action_left"] = "A"
+			default["action_right"] = "D"
+			file.open(path+"keybindings.json",File.WRITE)
+			file.store_string(var2str(default))
+		else:
+			file.open(path+"keybindings.json",File.READ_WRITE)
+			if file.get_as_text()=="":
+				var default = {"action_up" : "W"}
+				default["action_pragmatism"] = "J"
+				default["action_empathy"] = "G"
+				default["action_anger"] = "Y"
+				default["action_interact"] = "E"
+				default["action_shoot"] = "SPACE"
+				default["action_restart"] = "R"
+				default["action_fastbrake"] = "CONTROL"
+				default["action_brake"] = "S"
+				default["action_boost"] = "W"
+				default["pause"] = "ESCAPE"
+				default["action_skip"] = "F"
+				default["action_left"] = "A"
+				default["action_right"] = "D"	
+				file.store_string(var2str(default))
+			else:
+				var s = file.get_as_text()
+				file.close()
+				Remap(s,path)
+	### keybind
+	
+	
+	path+="disabled.tgl"
+	if file.file_exists(path):
+		file.open(path,File.READ)
+		if file.get_as_text()=="disabled":
+			scene.get_node("CheckBox").pressed = false
+		file.close()
+	### SUNETE ###	
+	pass
+	
+func sound_maker(scene):
+	var undisabled = scene.get_node("CheckBox").pressed
+	if undisabled:
+		var file=File.new()
+		var path_s = OS.get_executable_path().get_base_dir()+"/mods/sound"
+		file.open(path_s,File.READ_WRITE)
+		if file.file_exists(path_s+"/button_advance.wav"):
+			file.open(path_s+"/button_advance.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			button_press_sfx.data = buffer
+			
+		if file.file_exists(path_s+"/button_back.wav"):
+			file.open(path_s+"/button_back.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			button_back_sfx.data = buffer
+			
+		if file.file_exists(path_s+"/attention_popup.wav"):
+			file.open(path_s+"/attention_popup.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			attention_popup_sfx.data = buffer
+			
+		if file.file_exists(path_s+"/dialogue_popup.wav"):
+			file.open(path_s+"/dialogue_popup.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			dialogue_popup_sfx.data = buffer
+			
+		if file.file_exists(path_s+"/low-impact.wav"):
+			file.open(path_s+"/low-impact.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			impact_sfx.data = buffer
+			
+		if file.file_exists(path_s+"/quit.wav"):
+			file.open(path_s+"/quit.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			quit_sfx.data = buffer
+			
+		#var main_menu_theme = preload("res://soundtrack/main_theme.wav")
+		if file.file_exists(path_s+"/main_theme.wav"):
+			file.open(path_s+"/main_theme.wav", file.READ)
+			var buffer = file.get_buffer(file.get_len())
+			main_menu_theme.data = buffer
+			music_player.stop()
+			music_player.stream = main_menu_theme
+			music_player.play()
+	else:
+		var file=File.new()
+		file.open("res://sfx/button_advance.wav", file.READ)
+		var buffer = file.get_buffer(file.get_len())
+		button_press_sfx.data = buffer
+		
+		file.open("res://sfx/button_back.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		button_back_sfx.data = buffer
+		
+		file.open("res://sfx/attention_popup.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		attention_popup_sfx.data = buffer
+		
+		file.open("res://sfx/dialogue_popup.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		dialogue_popup_sfx.data = buffer
+		
+		file.open("res://sfx/low-impact.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		impact_sfx.data = buffer
+		
+		file.open("res://sfx/quit.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		quit_sfx.data = buffer
+	
+
+func init_mods():
+	var mods = subdirs(OS.get_executable_path().get_base_dir()+"/mods")
+	for mod_name in mods:
+		var scene = modres.instance()
+		globals.mod_instances.append(scene)
+		scene.get_node("CheckBox").connect("toggled",self,"_on_mods_checkbox_pressed", [scene])
+		var space = spacingres.instance()
+		globals.mod_spacing_instances.append(space)
+		scene.get_node("Label").text = mod_name
+		Check_Activity(scene)
+		$mods_menu/ScrollContainer/VBoxContainer.add_child(scene)
+		$mods_menu/ScrollContainer/VBoxContainer.add_child(space)
+	pass
+
+func _on_MODS_pressed():
+	$mods_menu.visible=true
+	$VBoxContainer.visible=false
+	$MODS.visible=false
+	pass 
+
+
+func _on_Back_mods_pressed():
+	$mods_menu.visible=false
+	$VBoxContainer.visible=true
+	$MODS.visible=true
+	pass 
+
+
+func _on_Button_pressed():
+# warning-ignore:return_value_discarded
+	OS.shell_open(OS.get_executable_path().get_base_dir()+"/mods")
+	pass # Replace with function body.
+
+
+func _on_Music_finished():
+	music_player.play()
+	pass # Replace with function body.

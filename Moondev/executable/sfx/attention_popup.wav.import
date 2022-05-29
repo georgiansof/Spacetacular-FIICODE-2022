@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/attention_popup.wav-613be9dcd7d228e8cf58fe707be823f4.sample"
+
+[deps]
+
+source_file="res://executable/sfx/attention_popup.wav"
+dest_files=[ "res://.import/attention_popup.wav-613be9dcd7d228e8cf58fe707be823f4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
