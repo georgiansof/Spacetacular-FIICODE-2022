@@ -822,6 +822,14 @@ func sound_maker(scene):
 		file.open("res://sfx/quit.wav", file.READ)
 		buffer = file.get_buffer(file.get_len())
 		quit_sfx.data = buffer
+		
+		#var main_menu_theme = preload("res://soundtrack/main_theme.wav")
+		file.open("res://soundtrack/main_theme.wav", file.READ)
+		buffer = file.get_buffer(file.get_len())
+		main_menu_theme.data = buffer
+		music_player.stop()
+		music_player.stream = main_menu_theme
+		music_player.play()
 	
 
 func init_mods():
@@ -833,6 +841,8 @@ func init_mods():
 		var space = spacingres.instance()
 		globals.mod_spacing_instances.append(space)
 		scene.get_node("Label").text = mod_name
+		if scene.get_node("Label").text == "sound":
+			scene.get_node("CheckBox").pressed=false
 		Check_Activity(scene)
 		$mods_menu/ScrollContainer/VBoxContainer.add_child(scene)
 		$mods_menu/ScrollContainer/VBoxContainer.add_child(space)
