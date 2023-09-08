@@ -7,10 +7,9 @@ EDIT: finalist team ! \
 
 Executable might be broken; if so it needs to be built with godot 3. \
 
-Images: 
 <details>
   <summary>Images</summary>
-  ![alt text](https://imgur.com/rGvtpz4.png)
+  <image src="https://imgur.com/rGvtpz4.png"/>
   ![alt text](https://imgur.com/GHTDcXy.png)
   ![alt text](https://imgur.com/wUYPfQO.png)
   ![alt text](https://imgur.com/LDLcs4m.png)
