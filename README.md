@@ -5,7 +5,7 @@ Game engine: Godot
 
 EDIT: finalist team ! \
 
-Executable might be broken; if so it needs to be built with godot 3. \
+Executable might be broken; if so it needs to be built with godot 3. 
 
 <details>
   <summary>Images spoiler ( press here )</summary>
