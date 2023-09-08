@@ -9,12 +9,17 @@ Executable might be broken; if so it needs to be built with godot 3. \
 
 Images: 
 <details>
-  <summary>Spoiler warning</summary>
-  
-  Spoiler text. Note that it's important to have a space after the summary tag. You should be able to write any markdown you want inside the `<details>` tag... just make sure you close `<details>` afterward.
-  
-  ```javascript
-  console.log("I'm a code block!");
-  ```
-  
+  <summary>Images</summary>
+  ![alt text](https://imgur.com/rGvtpz4.png)
+  ![alt text](https://imgur.com/GHTDcXy.png)
+  ![alt text](https://imgur.com/wUYPfQO.png)
+  ![alt text](https://imgur.com/LDLcs4m.png)
+  ![alt text](https://imgur.com/aDzchUf.png)
+  ![alt text](https://imgur.com/Zkk6q2v.png)
+  ![alt text](https://imgur.com/OBgi3yP.png)
+  ![alt text](https://imgur.com/nxI4sjT.png)
+  ![alt text](https://imgur.com/wjOvknZ.png)
+  ![alt text](https://imgur.com/ZFusbQq.png)
+  ![alt text](https://imgur.com/7PSvs3Q.png)
+  ![alt text](https://imgur.com/xqoMGdK.png)
 </details>
