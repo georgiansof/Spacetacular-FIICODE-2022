@@ -8,7 +8,7 @@ EDIT: finalist team ! \
 Executable might be broken; if so it needs to be built with godot 3. \
 
 <details>
-  <summary>Images</summary>
+  <summary>Images spoiler ( press here )</summary>
   <image src="https://imgur.com/rGvtpz4.png"/> \
     -------------------------------------- \
   <image src="https://imgur.com/GHTDcXy.png"/> \
